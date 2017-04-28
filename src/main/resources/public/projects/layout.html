@@ -1,0 +1,32 @@
+<div class="alert alert-danger" role="alert" ng-show="error">
+    {{errorMessage}}
+</div>
+
+<div class="input-append">
+    <input style="width:358px; margin-left: 100px;" class="span2" type="text" ng-model="project.description" required="required" min="1" />
+    <button class="btn btn-primary" ng-disabled="!project.description" ng-hide="editMode" ng-click="addNewProject(project.description)">Добавить</button>
+    <button class="btn btn-primary" ng-disabled="!project.description" ng-show="editMode" ng-click="updateProject(project)">Сохранить</button>
+</div>
+
+<h3 style="margin-left:100px;">Список проектов</h3>
+<div class="alert alert-info" style="width:400px;margin-left:100px;" ng-show="projects.length == 0">
+    Список проектов пуст
+</div>
+<table class="table table-bordered table-striped" style="width:450px; margin-left: 100px;" ng-show="projects.length > 0">
+    <thead>
+        <tr>
+            <th style="text-align: center;">Название проекта</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="project in projects">
+            <td>{{project.description}}</td>
+            <td  style="width:70px;text-align:center;">
+                <button class="btn btn-mini btn-danger" ng-click="checkProjectForTasks(project.id)">Удалить</button>
+            </td>
+            <td  style="width:70px;text-align:center;">
+              <button class="btn btn-mini btn-success" ng-click="editProject(project)">Изменить</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
