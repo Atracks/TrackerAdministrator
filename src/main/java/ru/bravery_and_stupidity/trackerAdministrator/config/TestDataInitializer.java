@@ -32,6 +32,15 @@ public class TestDataInitializer {
     project = createProject("project 2");
     session.persist(project);
 
+    Order order = createOrder("order 1");
+    session.persist(order);
+
+    order = createOrder("order 2");
+    session.persist(order);
+
+    order = createOrder("order 3");
+    session.persist(order);
+
     project = createProject("project 3");
     Task task = createTaskWithoutOuterEntity("Тестовое поручение1", Date.valueOf("2015-12-31"), Date.valueOf("2017-02-12"), 5);
     session.persist(task);
