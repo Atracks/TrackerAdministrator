@@ -32,4 +32,9 @@ final public class OrderController {
     orderService.createOrder(order);
   }
 
+  @RequestMapping(value = "/deleteOrder/{orderId}", method = RequestMethod.DELETE)
+  @ResponseBody
+  public void deleteOrder(@PathVariable int orderId) {
+    orderService.deleteOrder(orderId);
+  }
 }

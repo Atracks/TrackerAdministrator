@@ -11,9 +11,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import ru.bravery_and_stupidity.trackerAdministrator.Application;
 import ru.bravery_and_stupidity.trackerAdministrator.config.TestConfiguration;
+import ru.bravery_and_stupidity.trackerAdministrator.dto.TestDtoCreater;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
 import ru.bravery_and_stupidity.trackerAdministrator.repository.OrderRepository;
@@ -23,6 +25,8 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -109,5 +113,18 @@ public class OrderRestWebServiceTest {
       return null;
     }
     return orders.get(0);
+  }
+
+  @Test
+  @Transactional
+  public void deleteOrder() throws Exception {
+    orderRepository.saveOrder(TestDtoCreater.createOrder("order22"));
+    Order order = findOrderByDescription("order22");
+    mockMvc.perform(delete("/orders/deleteOrder/" + String.valueOf(order.getIdOrder()))
+    .contentType(MediaType.APPLICATION_JSON)
+    .accept(MediaType.APPLICATION_JSON))
+    .andDo(print())
+    .andExpect(status().isOk());
+    assertNull("order not deleted", findOrderByDescription("order22"));
   }
 }
