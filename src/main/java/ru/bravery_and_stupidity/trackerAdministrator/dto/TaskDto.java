@@ -19,7 +19,7 @@ final public class TaskDto {
   private int importance;
   private int parentTaskId;
   private ProjectDto project;
-  private Order order;
+  private OrderDto order;
   private Worker responsible;
 
 
@@ -95,11 +95,11 @@ final public class TaskDto {
     this.project = project;
   }
 
-  public Order getOrder() {
+  public OrderDto getOrder() {
     return order;
   }
 
-  public void setOrder(Order order) {
+  public void setOrder(OrderDto order) {
     this.order = order;
   }
 
@@ -122,7 +122,7 @@ final public class TaskDto {
     taskDto.setIsOverdue(task.getIsOverdue());
     taskDto.setParentTaskId(task.getParentTaskId());
     taskDto.setProject(ProjectDto.mapFromModel(task.getProject()));
-    taskDto.setOrder(task.getOrder());
+    taskDto.setOrder(OrderDto.mapFromModel(task.getOrder()));
     taskDto.setResponsible(task.getResponsible());
     return taskDto;
   }
@@ -138,7 +138,7 @@ final public class TaskDto {
     task.setIsOverdue(taskDto.getIsOverdue());
     task.setParentTaskId(taskDto.getParentTaskId());
     task.setProject(ProjectDto.mapToModel(taskDto.getProject()));
-    task.setOrder(taskDto.getOrder());
+    task.setOrder(OrderDto.mapToModel(taskDto.getOrder()));
     task.setResponsible(taskDto.getResponsible());
     return task;
   }

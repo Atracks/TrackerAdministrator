@@ -1,11 +1,11 @@
 package ru.bravery_and_stupidity.trackerAdministrator.dto;
 
-import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
+import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderWithTaskDto {
+public class OrderWithTasksDto {
   private int id;
   private String description;
   private List<TaskDto> tasks = new ArrayList<>();
@@ -36,27 +36,27 @@ public class OrderWithTaskDto {
 
   public void addTask(TaskDto task) {this.tasks.add(task);}
 
-  public static OrderWithTaskDto mapFromModel(Project project) {
-    ProjectWithTasksDto projectWithTasksDto = new ProjectWithTasksDto();
-    projectWithTasksDto.setId(project.getIdProject());
-    projectWithTasksDto.setDescription(project.getDescription());
-    projectWithTasksDto.setTasks(TaskDto.mapFromModels(project.getTasks()));
-    return projectWithTasksDto;
+  public static OrderWithTasksDto mapFromModel(Order order) {
+    OrderWithTasksDto orderWithTasksDto = new OrderWithTasksDto();
+    orderWithTasksDto.setId(order.getIdOrder());
+    orderWithTasksDto.setDescription(order.getDescription());
+    orderWithTasksDto.setTasks(TaskDto.mapFromModels(order.getTasks()));
+    return orderWithTasksDto;
   }
 
-  public static Project mapToModel(ProjectWithTasksDto projectWithTasksDto) {
-    Project project = new Project();
-    project.setIdProject(projectWithTasksDto.getId());
-    project.setDescription(projectWithTasksDto.getDescription());
-    project.setTasks(TaskDto.mapToModels(projectWithTasksDto.getTasks()));
-    return project;
+  public static Order mapToModel(OrderWithTasksDto orderWithTasksDto) {
+    Order order = new Order();
+    order.setIdOrder(orderWithTasksDto.getId());
+    order.setDescription(orderWithTasksDto.getDescription());
+    order.setTasks(TaskDto.mapToModels(orderWithTasksDto.getTasks()));
+    return order;
   }
 
-  public static List<ProjectWithTasksDto> mapFromModels(List<Project> projects) {
-    List<ProjectWithTasksDto> projectsWithTasksDto = new ArrayList<>();
-    for (Project project: projects) {
-      projectsWithTasksDto.add(mapFromModel(project));
+  public static List<OrderWithTasksDto> mapFromModels(List<Order> orders) {
+    List<OrderWithTasksDto> ordersWithTasksDto = new ArrayList<>();
+    for (Order order: orders) {
+      ordersWithTasksDto.add(mapFromModel(order));
     }
-    return projectsWithTasksDto;
+    return ordersWithTasksDto;
   }
 }

@@ -25,10 +25,10 @@ public class Order {
   @Column(name = "description")
   private String description;
 
-  //@OneToMany(cascade = CascadeType.ALL)
-  //@JoinTable(name = "relationshipstaskorder", joinColumns = @JoinColumn(name = "idOrder"),
-  //    inverseJoinColumns = @JoinColumn(name = "idTask"))
-  //private Set<Task> tasks = new LinkedHashSet<>();
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "relationshipstaskorder", joinColumns = @JoinColumn(name = "idOrder"),
+      inverseJoinColumns = @JoinColumn(name = "idTask"))
+  private Set<Task> tasks = new LinkedHashSet<>();
 
   public int getIdOrder() {
     return idOrder;
@@ -46,7 +46,7 @@ public class Order {
     this.description = description;
   }
 
-  /*public Set<Task> getTasks() {
+  public Set<Task> getTasks() {
     return tasks;
   }
 
@@ -56,7 +56,7 @@ public class Order {
 
   public void addTask(Task task) {
     tasks.add(task);
-  };*/
+  };
 
   @Override
   public boolean equals(Object o) {

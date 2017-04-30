@@ -39,18 +39,20 @@ public class TestDataInitializer {
     session.persist(order);
 
     order = createOrder("order 3");
-    session.persist(order);
 
     project = createProject("project 3");
     Task task = createTaskWithoutOuterEntity("Тестовое поручение1", Date.valueOf("2015-12-31"), Date.valueOf("2017-02-12"), 5);
     session.persist(task);
     project.addTask(task);
+    order.addTask(task);
 
     task = createTaskWithoutOuterEntity("Тестовое поручение2", Date.valueOf("2013-11-22"), Date.valueOf("2016-08-05"), 10);
     session.persist(task);
     project.addTask(task);
+    order.addTask(task);
 
     session.persist(project);
+    session.persist(order);
     transaction.commit();
   }
 

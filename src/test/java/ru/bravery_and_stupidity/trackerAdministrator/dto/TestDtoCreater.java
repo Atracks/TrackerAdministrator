@@ -78,7 +78,7 @@ final public class TestDtoCreater {
     task.setDeadlineDate(new Date(234));
     task.setImportance(10);
     task.setIsOverdue((byte)1);
-    task.setOrder(createOrder(16,"order 678"));
+    task.setOrder(createOrderDto(16,"order 678"));
     task.setProject(createProjectDto(22, "Tested projectDto 47"));
     task.setResponsible(createWorker(23, "Bill", "Footer"));
     task.setParentTaskId(22);
@@ -95,6 +95,13 @@ final public class TestDtoCreater {
     project.setId(id);
     project.setDescription(description);
     return project;
+  }
+
+  public static OrderDto createOrderDto(int id, String description) {
+    OrderDto order = new OrderDto();
+    order.setId(id);
+    order.setDescription(description);
+    return order;
   }
 
   public static  ProjectWithTasksDto createProjectWithTasksDto(int id, String description) {
