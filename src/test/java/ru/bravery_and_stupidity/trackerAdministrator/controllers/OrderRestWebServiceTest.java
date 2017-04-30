@@ -14,11 +14,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ru.bravery_and_stupidity.trackerAdministrator.Application;
 import ru.bravery_and_stupidity.trackerAdministrator.config.TestConfiguration;
+import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
+import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
 import ru.bravery_and_stupidity.trackerAdministrator.repository.OrderRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -84,5 +90,24 @@ public class OrderRestWebServiceTest {
     //FIXME
     //.andExpect(jsonPath("$.[2].['tasks'].[0].['order']").value())
     //.andExpect(jsonPath("$.[2].['tasks'].[0].['responsible']").value())
+  }
+
+  @Test
+  public void addOrder() throws Exception {
+    mockMvc.perform(post("/orders/addOrder/add order test")
+    .contentType(MediaType.APPLICATION_JSON)
+    .accept(MediaType.APPLICATION_JSON))
+    .andDo(print())
+    .andExpect(status().isOk());
+    assertNotNull("order not added", findOrderByDescription("add order test"));
+  }
+
+  private Order findOrderByDescription(String description) {
+    List<Order> orders = em.createQuery("select u from Order u where description = :description")
+    .setParameter("description", description).getResultList();
+    if(orders.isEmpty()) {
+      return null;
+    }
+    return orders.get(0);
   }
 }
