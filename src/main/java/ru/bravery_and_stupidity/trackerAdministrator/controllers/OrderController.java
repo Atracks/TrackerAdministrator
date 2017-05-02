@@ -2,6 +2,8 @@ package ru.bravery_and_stupidity.trackerAdministrator.controllers;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.bravery_and_stupidity.trackerAdministrator.dto.OrderWithTasksDto;
 import ru.bravery_and_stupidity.trackerAdministrator.dto.ProjectWithTasksDto;
@@ -43,5 +45,11 @@ final public class OrderController {
   @ResponseBody
   public void updateOrder(@RequestBody OrderWithTasksDto orderWithTasksDto) {
     orderService.updateOrder(OrderWithTasksDto.mapToModel(orderWithTasksDto));
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<String> errorHandler(Exception exc) {
+    logger.error(exc.getMessage(), exc);
+    return new ResponseEntity<>(exc.getMessage(), HttpStatus.BAD_REQUEST);
   }
 }

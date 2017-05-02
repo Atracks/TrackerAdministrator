@@ -16,10 +16,8 @@ import org.springframework.web.context.WebApplicationContext;
 import ru.bravery_and_stupidity.trackerAdministrator.Application;
 import ru.bravery_and_stupidity.trackerAdministrator.config.TestConfiguration;
 import ru.bravery_and_stupidity.trackerAdministrator.dto.OrderWithTasksDto;
-import ru.bravery_and_stupidity.trackerAdministrator.dto.ProjectWithTasksDto;
 import ru.bravery_and_stupidity.trackerAdministrator.dto.TestDtoCreater;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
-import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
 import ru.bravery_and_stupidity.trackerAdministrator.repository.OrderRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -149,5 +147,33 @@ public class OrderRestWebServiceTest {
 
     order = findOrderByDescription(changedOrderDescription);
     assertEquals(order.getDescription(), changedOrderDescription);
+  }
+
+  @Test
+  @Transactional
+  public void updateOrderWithoutBodyRequest() throws Exception {
+    mockMvc.perform(put("/orders/updateOrder/")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void deleteOrderWithWrongId() throws Exception {
+    mockMvc.perform(delete("/orders/deleteOrder/0")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void addOrderWithoutDescription() throws Exception {
+    mockMvc.perform(post("/orders/addOrder")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isNotFound());
   }
 }
