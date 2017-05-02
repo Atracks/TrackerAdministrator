@@ -11,14 +11,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import ru.bravery_and_stupidity.trackerAdministrator.Application;
 import ru.bravery_and_stupidity.trackerAdministrator.config.TestConfiguration;
+import ru.bravery_and_stupidity.trackerAdministrator.dto.OrderWithTasksDto;
+import ru.bravery_and_stupidity.trackerAdministrator.dto.TestDtoCreater;
+import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
 import ru.bravery_and_stupidity.trackerAdministrator.repository.OrderRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -84,5 +93,87 @@ public class OrderRestWebServiceTest {
     //FIXME
     //.andExpect(jsonPath("$.[2].['tasks'].[0].['order']").value())
     //.andExpect(jsonPath("$.[2].['tasks'].[0].['responsible']").value())
+  }
+
+  @Test
+  public void addOrder() throws Exception {
+    mockMvc.perform(post("/orders/addOrder/add order test")
+    .contentType(MediaType.APPLICATION_JSON)
+    .accept(MediaType.APPLICATION_JSON))
+    .andDo(print())
+    .andExpect(status().isOk());
+    assertNotNull("order not added", findOrderByDescription("add order test"));
+  }
+
+  private Order findOrderByDescription(String description) {
+    List<Order> orders = em.createQuery("select u from Order u where description = :description")
+    .setParameter("description", description).getResultList();
+    if(orders.isEmpty()) {
+      return null;
+    }
+    return orders.get(0);
+  }
+
+  @Test
+  @Transactional
+  public void deleteOrder() throws Exception {
+    orderRepository.saveOrder(TestDtoCreater.createOrder("order22"));
+    Order order = findOrderByDescription("order22");
+    mockMvc.perform(delete("/orders/deleteOrder/" + String.valueOf(order.getIdOrder()))
+    .contentType(MediaType.APPLICATION_JSON)
+    .accept(MediaType.APPLICATION_JSON))
+    .andDo(print())
+    .andExpect(status().isOk());
+    assertNull("order not deleted", findOrderByDescription("order22"));
+  }
+
+  @Test
+  @Transactional
+  public void updateOrder() throws Exception {
+    String orderDescription = "order update test 1234";
+    String changedOrderDescription = "changed order description";
+
+    orderRepository.saveOrder(TestDtoCreater.createOrder(orderDescription));
+    Order order = findOrderByDescription(orderDescription);
+    order.setDescription(changedOrderDescription);
+    String jsonProject = JsonMaper.mapToJson(OrderWithTasksDto.mapFromModel(order));
+
+    mockMvc.perform(put("/orders/updateOrder/")
+    .contentType(MediaType.APPLICATION_JSON)
+    .content(jsonProject)
+    .accept(MediaType.APPLICATION_JSON))
+    .andDo(print())
+    .andExpect(status().isOk());
+
+    order = findOrderByDescription(changedOrderDescription);
+    assertEquals(order.getDescription(), changedOrderDescription);
+  }
+
+  @Test
+  @Transactional
+  public void updateOrderWithoutBodyRequest() throws Exception {
+    mockMvc.perform(put("/orders/updateOrder/")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void deleteOrderWithWrongId() throws Exception {
+    mockMvc.perform(delete("/orders/deleteOrder/0")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void addOrderWithoutDescription() throws Exception {
+    mockMvc.perform(post("/orders/addOrder")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isNotFound());
   }
 }

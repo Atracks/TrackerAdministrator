@@ -117,11 +117,11 @@ public class ProjectRestWebServiceTest {
     projectRepository.saveProject(TestDtoCreater.createProject("project200"));
     Project project = findProjectByDescription("project200");
     mockMvc.perform(delete("/projects/deleteProject/" + String.valueOf(project.getIdProject()))
-     .contentType(MediaType.APPLICATION_JSON)
-     .accept(MediaType.APPLICATION_JSON))
-     .andDo(print())
-     .andExpect(status().isOk());
-     assertNull("project not deleted", findProjectByDescription("project200"));
+    .contentType(MediaType.APPLICATION_JSON)
+    .accept(MediaType.APPLICATION_JSON))
+    .andDo(print())
+    .andExpect(status().isOk());
+    assertNull("project not deleted", findProjectByDescription("project200"));
   }
 
   @Test

@@ -14,6 +14,12 @@ import java.util.Set;
 public class Order {
   public static final String GET_ALL = "orders.getAll";
 
+  public Order() {}
+
+  public Order(String description) {
+    this.description = description;
+  }
+
   @Id
   @GeneratedValue
   @Column(name = "idOrder")
