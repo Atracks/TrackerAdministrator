@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.bravery_and_stupidity.trackerAdministrator.dto.OrderWithTasksDto;
+import ru.bravery_and_stupidity.trackerAdministrator.dto.ProjectWithTasksDto;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
 import ru.bravery_and_stupidity.trackerAdministrator.services.OrderService;
@@ -36,5 +37,11 @@ final public class OrderController {
   @ResponseBody
   public void deleteOrder(@PathVariable int orderId) {
     orderService.deleteOrder(orderId);
+  }
+
+  @RequestMapping(value = "/updateOrder", method = RequestMethod.PUT)
+  @ResponseBody
+  public void updateOrder(@RequestBody OrderWithTasksDto orderWithTasksDto) {
+    orderService.updateOrder(OrderWithTasksDto.mapToModel(orderWithTasksDto));
   }
 }

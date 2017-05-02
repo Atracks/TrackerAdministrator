@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import ru.bravery_and_stupidity.trackerAdministrator.Application;
 import ru.bravery_and_stupidity.trackerAdministrator.config.TestConfiguration;
+import ru.bravery_and_stupidity.trackerAdministrator.dto.OrderWithTasksDto;
+import ru.bravery_and_stupidity.trackerAdministrator.dto.ProjectWithTasksDto;
 import ru.bravery_and_stupidity.trackerAdministrator.dto.TestDtoCreater;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
@@ -24,11 +26,10 @@ import javax.persistence.PersistenceContext;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -126,5 +127,27 @@ public class OrderRestWebServiceTest {
     .andDo(print())
     .andExpect(status().isOk());
     assertNull("order not deleted", findOrderByDescription("order22"));
+  }
+
+  @Test
+  @Transactional
+  public void updateOrder() throws Exception {
+    String orderDescription = "order update test 1234";
+    String changedOrderDescription = "changed order description";
+
+    orderRepository.saveOrder(TestDtoCreater.createOrder(orderDescription));
+    Order order = findOrderByDescription(orderDescription);
+    order.setDescription(changedOrderDescription);
+    String jsonProject = JsonMaper.mapToJson(OrderWithTasksDto.mapFromModel(order));
+
+    mockMvc.perform(put("/orders/updateOrder/")
+    .contentType(MediaType.APPLICATION_JSON)
+    .content(jsonProject)
+    .accept(MediaType.APPLICATION_JSON))
+    .andDo(print())
+    .andExpect(status().isOk());
+
+    order = findOrderByDescription(changedOrderDescription);
+    assertEquals(order.getDescription(), changedOrderDescription);
   }
 }
