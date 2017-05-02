@@ -20,3 +20,15 @@ AppServices.service('taskService', ['$http','$q', function($http) {
     saveTasks: function (tasks) { return $http.put('tasks/saveTasks/',tasks);}
   }
 }]);
+
+AppServices.service('orderService', ['$http','$q', function($http) {
+  var orderIdForDelete;
+  return {
+    getOrders: function () {return $http.get('orders/ordersList.json');},
+    addOrder: function (newOrder) {return $http.post('orders/addOrder/' + newOrder)},
+    deleteOrder: function (id) {return $http.delete('orders/deleteOrder/' + id)},
+    saveOrder: function (order) {return $http.put('orders/updateOrder', order)},
+    setOrderIdForDelete: function (id) {orderIdForDelete = id},
+    getOrderIdForDelete: function () { return orderIdForDelete}
+  }
+}]);
