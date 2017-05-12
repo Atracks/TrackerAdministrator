@@ -15,12 +15,17 @@ App.config(['$routeProvider', function ($routeProvider) {
     controller: orderController
   });
 
-  $routeProvider.when('/tasks', {
-    templateUrl: 'tasks/layout.html',
-    controller: taskController
+  $routeProvider.when('/prjTasks', {
+    templateUrl: 'tasks/prjTaskLayout.html',
+    controller: tasksByProjectController
   });
 
-  $routeProvider.otherwise({redirectTo: '/projects'});
+  $routeProvider.when('/ordTasks', {
+    templateUrl: 'tasks/ordTaskLayout.html',
+    controller: tasksByOrderController
+  });
+
+  //$routeProvider.otherwise({redirectTo: '/projects'});
 }]);
 
 

@@ -1,0 +1,43 @@
+<div class="alert alert-danger" role="alert" ng-show="error">
+    {{errorMessage}}
+</div>
+
+<div class="alert alert-info" role="alert">
+    Для удаления заказа необходимо переназначить заказ следующим поручениям:
+</div>
+
+<div class="btn-group">
+    <button class="btn btn-mini btn-success" style="margin-left: 550px; margin-top: auto" ng-click="saveTasks()">Сохранить</button>
+</div>
+
+<table class="table table-bordered table-striped table-hover" style="width:450px; position: absolute;" ng-show="tasks.length > 0">
+    <thead>
+    <tr>
+        <th style="horiz-align: left; text-align: center;min-width: 450px;">Описание задачи</th>
+        <th style="text-align: center;">Выполнить к дате</th>
+        <th style="text-align: center;">Ответственный</th>
+        <th style="text-align: center;">Проект</th>
+        <th style="text-align: center;">Заказ</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="task in tasks">
+        <td>{{task.description}}</td>
+        <td>{{task.deadlineDate}}</td>
+        <td>{{task.responsibleFullName}}</td>
+        <td>{{task.project.description}}</td>
+        <td>
+            <div class="dropdown">
+                <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{task.order.description}}
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#/ordTasks" ng-repeat="order in orders" ng-click="selectOrderClicked(order, task)" href="">{{order.description}}</a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
