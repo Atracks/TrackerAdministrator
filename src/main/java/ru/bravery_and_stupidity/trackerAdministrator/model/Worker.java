@@ -83,8 +83,6 @@ public class Worker {
   }
 
   @Basic
-  //FIXME
-  //@Column(name = "login", columnDefinition = "char(255)")
   @Column(name = "login")
   public String getLogin() {
     return login;
@@ -95,8 +93,6 @@ public class Worker {
   }
 
   @Basic
-  //FIXME
-  //@Column(name = "pass", columnDefinition = "char(255)")
   @Column(name = "pass")
   public String getPass() {
     return pass;
@@ -107,8 +103,6 @@ public class Worker {
   }
 
   @Basic
-  //FIXME
-  //@Column(name = "isGod", columnDefinition = "bit")
   @Column(name = "isGod")
   public byte getIsGod() {
     return isGod;

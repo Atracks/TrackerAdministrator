@@ -12,10 +12,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import ru.bravery_and_stupidity.trackerAdministrator.Application;
 import ru.bravery_and_stupidity.trackerAdministrator.config.TestConfiguration;
-import ru.bravery_and_stupidity.trackerAdministrator.dto.ProjectWithTasksDto;
+import ru.bravery_and_stupidity.trackerAdministrator.dto.ProjectDto;
 import ru.bravery_and_stupidity.trackerAdministrator.dto.TestDtoCreater;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
 import ru.bravery_and_stupidity.trackerAdministrator.repository.ProjectRepository;
@@ -61,35 +62,7 @@ public class ProjectRestWebServiceTest {
     .andExpect(content().contentType("application/json;charset=UTF-8"))
     .andExpect(jsonPath("$.[0].['description']").value("project 1")).andExpect(jsonPath("$.[0].['id']").value("1"))
     .andExpect(jsonPath("$.[1].['description']").value("project 2")).andExpect(jsonPath("$.[1].['id']").value("2"))
-    .andExpect(jsonPath("$.[2].['description']").value("project 3")).andExpect(jsonPath("$.[2].['id']").value("3"))
-
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['id']").value("1"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['description']").value("Тестовое поручение1"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['creationDate']").value("2015-12-31"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['deadlineDate']").value("2017-02-12"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['status']").value("0"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['isOverdue']").value("1"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['importance']").value("5"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['parentTaskId']").value("22"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['project'].['id']").value("3"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['project'].['description']").value("project 3"))
-    //FIXME
-    //.andExpect(jsonPath("$.[2].['tasks'].[0].['order']").value())
-    //.andExpect(jsonPath("$.[2].['tasks'].[0].['responsible']").value())
-
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['id']").value("2"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['description']").value("Тестовое поручение2"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['creationDate']").value("2013-11-22"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['deadlineDate']").value("2016-08-05"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['status']").value("0"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['isOverdue']").value("1"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['importance']").value("10"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['parentTaskId']").value("22"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['project'].['id']").value("3"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['project'].['description']").value("project 3"));
-    //FIXME
-    //.andExpect(jsonPath("$.[2].['tasks'].[0].['order']").value())
-    //.andExpect(jsonPath("$.[2].['tasks'].[0].['responsible']").value())
+    .andExpect(jsonPath("$.[2].['description']").value("project 3")).andExpect(jsonPath("$.[2].['id']").value("3"));
   }
 
   @Test
@@ -103,15 +76,14 @@ public class ProjectRestWebServiceTest {
   }
 
   private Project findProjectByDescription(String description) {
-    List<Project> projects = em.createQuery("select u from Project u where description = :description")
-        .setParameter("description", description).getResultList();
-    if(projects.isEmpty()) {
-      return null;
-    }
+    List<Project> projects = em.createQuery("SELECT p FROM Project p WHERE description = :description")
+      .setParameter("description", description).getResultList();
+    Assert.notNull(projects, "projects is null");
+    Assert.notEmpty(projects,"project not found");
     return projects.get(0);
   }
 
-  @Test
+  @Test(expected = Exception.class)
   @Transactional
   public void deleteProject() throws Exception {
     projectRepository.saveProject(TestDtoCreater.createProject("project200"));
@@ -121,7 +93,7 @@ public class ProjectRestWebServiceTest {
     .accept(MediaType.APPLICATION_JSON))
     .andDo(print())
     .andExpect(status().isOk());
-    assertNull("project not deleted", findProjectByDescription("project200"));
+    findProjectByDescription("project200");
   }
 
   @Test
@@ -133,7 +105,7 @@ public class ProjectRestWebServiceTest {
     projectRepository.saveProject(TestDtoCreater.createProject(prjDescription));
     Project project = findProjectByDescription(prjDescription);
     project.setDescription(changedPrjDescription);
-    String jsonProject = JsonMaper.mapToJson(ProjectWithTasksDto.mapFromModel(project));
+    String jsonProject = JsonMaper.mapToJson(ProjectDto.mapFromModel(project));
 
     mockMvc.perform(put("/projects/updateProject/")
     .contentType(MediaType.APPLICATION_JSON)

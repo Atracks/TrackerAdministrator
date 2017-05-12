@@ -12,8 +12,6 @@ public class Task {
   private int idTask;
 
   @Basic
-  //FIXME
-  //@Column(name = "description", columnDefinition = "mediumtext")
   @Column(name = "description")
   private String description;
 
@@ -30,8 +28,6 @@ public class Task {
   private int status;
 
   @Basic
-  //FIXME
-  //@Column(name = "isOverdue", columnDefinition = "bit")
   @Column(name = "isOverdue")
   private byte isOverdue;
 
@@ -53,9 +49,10 @@ public class Task {
       inverseJoinColumns = @JoinColumn(name = "idOrder"))
   private Order order;
 
-  @ManyToOne(cascade = {CascadeType.ALL})
-  @JoinColumn(name = "responsible")
-  private Worker responsible;
+  //FIXME
+  //@ManyToOne(cascade = {CascadeType.ALL})
+  //@JoinColumn(name = "responsible")
+  //private Worker responsible;
 
   public int getIdTask() {
     return idTask;
@@ -129,9 +126,9 @@ public class Task {
     this.project = project;
   }
 
-  public Worker getResponsible() {
+  /*public Worker getResponsible() {
     return responsible;
-  }
+  }*/
 
   public Order getOrder() {
     return order;
@@ -141,9 +138,9 @@ public class Task {
     this.order = order;
   }
 
-  public void setResponsible(Worker responsible) {
+  /*public void setResponsible(Worker responsible) {
     this.responsible = responsible;
-  }
+  }*/
 
   @Override
   public boolean equals(Object o) {

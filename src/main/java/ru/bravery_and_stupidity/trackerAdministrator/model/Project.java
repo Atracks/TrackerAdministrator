@@ -1,9 +1,6 @@
 package ru.bravery_and_stupidity.trackerAdministrator.model;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "projects")
@@ -19,15 +16,8 @@ public class Project {
   private int idProject;
 
   @Basic
-  //FIXME
-  //@Column(name = "description", columnDefinition = "text")
   @Column(name = "description")
   private String description;
-
-  @OneToMany//(/*cascade = CascadeType.ALL*/)
-  @JoinTable(name = "relationshipstaskproject", joinColumns = @JoinColumn(name = "idProject"),
-             inverseJoinColumns = @JoinColumn(name = "idTask"))
-  private Set<Task> tasks = new LinkedHashSet<>();
 
   public Project() {
   }
@@ -55,18 +45,6 @@ public class Project {
 
   public void setDescription(String description) {
     this.description = description;
-  }
-
-  public Set<Task> getTasks() {
-    return tasks;
-  }
-
-  public void setTasks(Set<Task> tasks) {
-    this.tasks = tasks;
-  }
-
-  public void addTask(Task task) {
-    this.tasks.add(task);
   }
 
   @Override

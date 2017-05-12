@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.bravery_and_stupidity.trackerAdministrator.dto.OrderWithTasksDto;
-import ru.bravery_and_stupidity.trackerAdministrator.dto.ProjectWithTasksDto;
+import ru.bravery_and_stupidity.trackerAdministrator.dto.OrderDto;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
-import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
 import ru.bravery_and_stupidity.trackerAdministrator.services.OrderService;
 
 import java.util.List;
@@ -24,8 +22,8 @@ final public class OrderController {
 
   @RequestMapping(value = "/ordersList.json", method = RequestMethod.GET)
   @ResponseBody
-  public List<OrderWithTasksDto> getOrders() {
-    return OrderWithTasksDto.mapFromModels(orderService.getOrders()) ;
+  public List<OrderDto> getOrders() {
+    return OrderDto.mapFromModels(orderService.getOrders()) ;
   }
 
   @RequestMapping(value = "/addOrder/{orderName}", method = RequestMethod.POST)
@@ -43,8 +41,8 @@ final public class OrderController {
 
   @RequestMapping(value = "/updateOrder", method = RequestMethod.PUT)
   @ResponseBody
-  public void updateOrder(@RequestBody OrderWithTasksDto orderWithTasksDto) {
-    orderService.updateOrder(OrderWithTasksDto.mapToModel(orderWithTasksDto));
+  public void updateOrder(@RequestBody OrderDto orderDto) {
+    orderService.updateOrder(OrderDto.mapToModel(orderDto));
   }
 
   @ExceptionHandler(Exception.class)

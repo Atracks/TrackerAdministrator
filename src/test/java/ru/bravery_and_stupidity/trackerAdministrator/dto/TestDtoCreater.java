@@ -20,7 +20,8 @@ final public class TestDtoCreater {
     task.setIsOverdue((byte)1);
     task.setOrder(createOrder(21, "Tested order 45"));
     task.setProject(createProject(44, "Tested project 77"));
-    task.setResponsible(createWorker(67, "John", "Iovovich"));
+    //FIXME
+    //task.setResponsible(createWorker(67, "John", "Iovovich"));
     task.setParentTaskId(22);
     task.setStatus(2);
     return task;
@@ -102,15 +103,5 @@ final public class TestDtoCreater {
     order.setId(id);
     order.setDescription(description);
     return order;
-  }
-
-  public static  ProjectWithTasksDto createProjectWithTasksDto(int id, String description) {
-    ProjectWithTasksDto projectWithTasksDto = new ProjectWithTasksDto();
-    projectWithTasksDto.setId(id);
-    projectWithTasksDto.setDescription(description);
-    projectWithTasksDto.addTask(TestDtoCreater.createTaskDto(35,"task2345"));
-    projectWithTasksDto.addTask(TestDtoCreater.createTaskDto(11,"task45667"));
-    projectWithTasksDto.addTask(TestDtoCreater.createTaskDto(31,"task4"));
-    return projectWithTasksDto;
   }
 }

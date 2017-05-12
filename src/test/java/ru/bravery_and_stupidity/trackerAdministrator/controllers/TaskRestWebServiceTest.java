@@ -1,7 +1,5 @@
 package ru.bravery_and_stupidity.trackerAdministrator.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import ru.bravery_and_stupidity.trackerAdministrator.Application;
 import ru.bravery_and_stupidity.trackerAdministrator.config.TestConfiguration;
@@ -110,11 +109,10 @@ public class TaskRestWebServiceTest {
   }
 
   private Task findTaskByDescription(String description) {
-    List<Task> tasks = em.createQuery("select u from Task u where description = :description")
-        .setParameter("description", description).getResultList();
-    if(tasks.isEmpty()) {
-      return null;
-    }
+    List<Task> tasks = em.createQuery("SELECT u FROM Task u WHERE description = :description")
+      .setParameter("description", description).getResultList();
+    Assert.notNull(tasks, "tasks is null");
+    Assert.notEmpty(tasks,"task not found");
     return tasks.get(0);
   }
 

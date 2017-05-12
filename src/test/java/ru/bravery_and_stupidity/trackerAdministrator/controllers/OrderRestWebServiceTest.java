@@ -12,10 +12,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import ru.bravery_and_stupidity.trackerAdministrator.Application;
 import ru.bravery_and_stupidity.trackerAdministrator.config.TestConfiguration;
-import ru.bravery_and_stupidity.trackerAdministrator.dto.OrderWithTasksDto;
+import ru.bravery_and_stupidity.trackerAdministrator.dto.OrderDto;
 import ru.bravery_and_stupidity.trackerAdministrator.dto.TestDtoCreater;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
 import ru.bravery_and_stupidity.trackerAdministrator.repository.OrderRepository;
@@ -64,35 +65,7 @@ public class OrderRestWebServiceTest {
     .andExpect(content().contentType("application/json;charset=UTF-8"))
     .andExpect(jsonPath("$.[0].['description']").value("order 1")).andExpect(jsonPath("$.[0].['id']").value("1"))
     .andExpect(jsonPath("$.[1].['description']").value("order 2")).andExpect(jsonPath("$.[1].['id']").value("2"))
-    .andExpect(jsonPath("$.[2].['description']").value("order 3")).andExpect(jsonPath("$.[2].['id']").value("3"))
-
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['id']").value("1"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['description']").value("Тестовое поручение1"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['creationDate']").value("2015-12-31"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['deadlineDate']").value("2017-02-12"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['status']").value("0"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['isOverdue']").value("1"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['importance']").value("5"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['parentTaskId']").value("22"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['project'].['id']").value("3"))
-    .andExpect(jsonPath("$.[2].['tasks'].[0].['project'].['description']").value("project 3"))
-    //FIXME
-    //.andExpect(jsonPath("$.[2].['tasks'].[0].['order']").value())
-    //.andExpect(jsonPath("$.[2].['tasks'].[0].['responsible']").value())
-
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['id']").value("2"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['description']").value("Тестовое поручение2"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['creationDate']").value("2013-11-22"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['deadlineDate']").value("2016-08-05"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['status']").value("0"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['isOverdue']").value("1"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['importance']").value("10"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['parentTaskId']").value("22"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['project'].['id']").value("3"))
-    .andExpect(jsonPath("$.[2].['tasks'].[1].['project'].['description']").value("project 3"));
-    //FIXME
-    //.andExpect(jsonPath("$.[2].['tasks'].[0].['order']").value())
-    //.andExpect(jsonPath("$.[2].['tasks'].[0].['responsible']").value())
+    .andExpect(jsonPath("$.[2].['description']").value("order 3")).andExpect(jsonPath("$.[2].['id']").value("3"));
   }
 
   @Test
@@ -106,15 +79,14 @@ public class OrderRestWebServiceTest {
   }
 
   private Order findOrderByDescription(String description) {
-    List<Order> orders = em.createQuery("select u from Order u where description = :description")
-    .setParameter("description", description).getResultList();
-    if(orders.isEmpty()) {
-      return null;
-    }
+    List<Order> orders = em.createQuery("SELECT o FROM Order o WHERE description = :description")
+      .setParameter("description", description).getResultList();
+    Assert.notNull(orders,"orders can not be null");
+    Assert.notEmpty(orders,"order not found");
     return orders.get(0);
   }
 
-  @Test
+  @Test(expected = Exception.class)
   @Transactional
   public void deleteOrder() throws Exception {
     orderRepository.saveOrder(TestDtoCreater.createOrder("order22"));
@@ -124,7 +96,7 @@ public class OrderRestWebServiceTest {
     .accept(MediaType.APPLICATION_JSON))
     .andDo(print())
     .andExpect(status().isOk());
-    assertNull("order not deleted", findOrderByDescription("order22"));
+    findOrderByDescription("order22");
   }
 
   @Test
@@ -136,7 +108,7 @@ public class OrderRestWebServiceTest {
     orderRepository.saveOrder(TestDtoCreater.createOrder(orderDescription));
     Order order = findOrderByDescription(orderDescription);
     order.setDescription(changedOrderDescription);
-    String jsonProject = JsonMaper.mapToJson(OrderWithTasksDto.mapFromModel(order));
+    String jsonProject = JsonMaper.mapToJson(OrderDto.mapFromModel(order));
 
     mockMvc.perform(put("/orders/updateOrder/")
     .contentType(MediaType.APPLICATION_JSON)

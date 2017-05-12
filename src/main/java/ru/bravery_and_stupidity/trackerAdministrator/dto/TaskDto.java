@@ -121,9 +121,18 @@ final public class TaskDto {
     taskDto.setImportance(task.getImportance());
     taskDto.setIsOverdue(task.getIsOverdue());
     taskDto.setParentTaskId(task.getParentTaskId());
-    taskDto.setProject(ProjectDto.mapFromModel(task.getProject()));
-    taskDto.setOrder(OrderDto.mapFromModel(task.getOrder()));
-    taskDto.setResponsible(task.getResponsible());
+    //FIXME
+    if(task.getProject() != null) {
+      taskDto.setProject(ProjectDto.mapFromModel(task.getProject()));
+    }
+    //FIXME
+    if(task.getOrder() != null) {
+      taskDto.setOrder(OrderDto.mapFromModel(task.getOrder()));
+    }
+    //FIXME
+   /* if(task.getResponsible() != null) {
+      taskDto.setResponsible(task.getResponsible());
+    }*/
     return taskDto;
   }
 
@@ -137,13 +146,33 @@ final public class TaskDto {
     task.setImportance(taskDto.getImportance());
     task.setIsOverdue(taskDto.getIsOverdue());
     task.setParentTaskId(taskDto.getParentTaskId());
-    task.setProject(ProjectDto.mapToModel(taskDto.getProject()));
-    task.setOrder(OrderDto.mapToModel(taskDto.getOrder()));
-    task.setResponsible(taskDto.getResponsible());
+    //FIXME
+    if(taskDto.getProject() != null) {
+      task.setProject(ProjectDto.mapToModel(taskDto.getProject()));
+    }
+    //FIXME
+    if(taskDto.getOrder() != null) {
+      task.setOrder(OrderDto.mapToModel(taskDto.getOrder()));
+    }
+    //FIXME
+   // if(taskDto.getOrder() != null) {
+      //FIXME
+
+    //task.setResponsible(taskDto.getResponsible());
+    // task.setResponsible(worker);
+    //}
     return task;
   }
 
   public static List<TaskDto> mapFromModels(Set<Task> tasks) {
+    List<TaskDto> tasksDto = new ArrayList<>();
+    for (Task task: tasks) {
+      tasksDto.add(mapFromModel(task));
+    }
+    return tasksDto;
+  }
+
+  public static List<TaskDto> mapFromModels(List<Task> tasks) {
     List<TaskDto> tasksDto = new ArrayList<>();
     for (Task task: tasks) {
       tasksDto.add(mapFromModel(task));

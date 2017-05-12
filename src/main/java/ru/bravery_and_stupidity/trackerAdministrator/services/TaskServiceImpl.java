@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bravery_and_stupidity.trackerAdministrator.dto.TaskDto;
-import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Task;
 import ru.bravery_and_stupidity.trackerAdministrator.repository.ProjectRepository;
 import ru.bravery_and_stupidity.trackerAdministrator.repository.TaskRepository;
@@ -23,9 +22,8 @@ public class TaskServiceImpl implements TaskService {
   @Override
   @Transactional
   public List<TaskDto> getTasksByProject(int projectId) {
-    Project project = projectRepository.getProjectById(projectId);
-    List<TaskDto> tasks = TaskDto.mapFromModels(project.getTasks());
-    return tasks;
+    ValidationUtils.checkId(projectId);
+    return TaskDto.mapFromModels(taskRepository.getTasksByProject(projectId));
   }
 
   @Override

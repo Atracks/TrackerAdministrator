@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 @ActiveProfiles("test")
 @ContextConfiguration(classes={TestConfiguration.class, Application.class})
 public class TaskServiceImplTest {
+  
   @Autowired
   private TaskService taskService;
   @PersistenceContext
@@ -29,7 +30,8 @@ public class TaskServiceImplTest {
   @Test
   public void getTasksByProject() throws Exception {
     List<TaskDto> tasks = taskService.getTasksByProject(3);
-    assertEquals(tasks.size(), 2);
+    assertEquals(tasks.get(0).getId(), 1);
+    assertEquals(tasks.get(1).getId(), 2);
   }
 
   @Test

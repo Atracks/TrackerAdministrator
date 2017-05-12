@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.bravery_and_stupidity.trackerAdministrator.dto.ProjectWithTasksDto;
+import ru.bravery_and_stupidity.trackerAdministrator.dto.ProjectDto;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
 import ru.bravery_and_stupidity.trackerAdministrator.services.ProjectService;
 import java.util.List;
@@ -21,8 +21,8 @@ final public class ProjectController {
 
   @RequestMapping(value = "/projectsList.json", method = RequestMethod.GET)
   @ResponseBody
-  public List<ProjectWithTasksDto> getProjects() {
-    return ProjectWithTasksDto.mapFromModels(projectService.getProjects()) ;
+  public List<ProjectDto> getProjects() {
+    return ProjectDto.mapFromModels(projectService.getProjects()) ;
   }
 
   @RequestMapping(value = "addProject/{projectName}", method = RequestMethod.POST)
@@ -40,8 +40,8 @@ final public class ProjectController {
 
   @RequestMapping(value = "/updateProject", method = RequestMethod.PUT)
   @ResponseBody
-  public void updateProject(@RequestBody ProjectWithTasksDto projectWithTasksDto) {
-    projectService.updateProject(ProjectWithTasksDto.mapToModel(projectWithTasksDto));
+  public void updateProject(@RequestBody ProjectDto projectDto) {
+    projectService.updateProject(ProjectDto.mapToModel(projectDto));
   }
 
   @ExceptionHandler(Exception.class)
