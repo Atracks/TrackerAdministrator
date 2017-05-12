@@ -98,10 +98,18 @@ final public class TestDtoCreater {
     return project;
   }
 
+  public static ProjectDto createProjectDto(String description) {
+    return createProjectDto(0,description);
+  }
+
   public static OrderDto createOrderDto(int id, String description) {
     OrderDto order = new OrderDto();
     order.setId(id);
     order.setDescription(description);
     return order;
+  }
+
+  public static OrderDto createOrderDto(String description) {
+    return createOrderDto(0,description);
   }
 }
