@@ -26,4 +26,11 @@ public class TaskRepositoryImpl implements TaskRepository {
       .setParameter("projectId", projectId).getResultList();
     return tasks;
   }
+
+  @Override
+  public List<Task> getTasksByOrder(int orderId) {
+    List<Task> tasks = em.createQuery("SELECT DISTINCT t FROM Task t JOIN t.order o where o.idOrder = :orderId")
+      .setParameter("orderId", orderId).getResultList();
+    return tasks;
+  }
 }

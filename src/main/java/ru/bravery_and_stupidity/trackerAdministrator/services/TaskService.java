@@ -8,5 +8,6 @@ import java.util.Set;
 
 public interface TaskService {
   List<TaskDto> getTasksByProject(int projectId);
+  List<TaskDto> getTasksByOrder(int orderId);
   void saveTasks(Set<Task> tasks);
 }
