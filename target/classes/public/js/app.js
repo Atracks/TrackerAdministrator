@@ -10,16 +10,11 @@ App.config(['$routeProvider', function ($routeProvider) {
     controller: projectController
   });
 
-  $routeProvider.when('/orders', {
-    templateUrl: 'orders/layout.html',
-    controller: orderController
-  });
-
   $routeProvider.when('/tasks', {
     templateUrl: 'tasks/layout.html',
     controller: taskController
   });
-
+    
   $routeProvider.otherwise({redirectTo: '/projects'});
 }]);
 
