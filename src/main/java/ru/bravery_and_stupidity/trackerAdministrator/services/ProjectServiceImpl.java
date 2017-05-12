@@ -47,6 +47,7 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
+  @Transactional
   public Project getProject(int id) {
     ValidationUtils.checkId(id);
     return repository.getProjectById(id);

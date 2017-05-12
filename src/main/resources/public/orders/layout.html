@@ -1,0 +1,32 @@
+<div class="alert alert-danger" role="alert" ng-show="error">
+    {{errorMessage}}
+</div>
+
+<div class="input-append">
+    <input style="width:358px; margin-left: 100px;" class="span2" type="text" ng-model="order.description" required="required" min="1" />
+    <button class="btn btn-primary" ng-disabled="!order.description" ng-hide="editMode" ng-click="addNewOrder(order.description)">Добавить</button>
+    <button class="btn btn-primary" ng-disabled="!order.description" ng-show="editMode" ng-click="updateOrder(order)">Сохранить</button>
+</div>
+
+<h3 style="margin-left:100px;">Список заказов</h3>
+<div class="alert alert-info" style="width:400px;margin-left:100px;" ng-show="orders.length == 0">
+    Список заказов пуст
+</div>
+<table class="table table-bordered table-striped" style="width:450px; margin-left: 100px;" ng-show="orders.length > 0">
+    <thead>
+        <tr>
+            <th style="text-align: center;">Название заказа</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="order in orders">
+            <td>{{order.description}}</td>
+            <td  style="width:70px;text-align:center;">
+                <button class="btn btn-mini btn-danger" ng-click="checkOrderForTasks(order.id)">Удалить</button>
+            </td>
+            <td  style="width:70px;text-align:center;">
+              <button class="btn btn-mini btn-success" ng-click="editOrder(order)">Изменить</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
