@@ -27,6 +27,12 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
+  public List<TaskDto> getTasksByOrder(int orderId) {
+    ValidationUtils.checkId(orderId);
+    return TaskDto.mapFromModels(taskRepository.getTasksByOrder(orderId));
+  }
+
+  @Override
   @Transactional
   public void saveTasks(Set<Task> tasks) {
     for (Task task: tasks) {
