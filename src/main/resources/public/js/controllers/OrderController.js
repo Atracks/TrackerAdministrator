@@ -32,7 +32,7 @@ var orderController = function($scope, $http, orderService, taskService) {
     resetError();
     orderService.setOrderIdForDelete(id);
     taskService.getTasksByOrder(id).success(function (tasks) {
-      if(tasks.length != 0) {window.location.replace('#/tasks');}
+      if(tasks.length != 0) {window.location.replace('#/ordTasks');}
       else {deleteOrder(id);}
     }).error(function () {setError("Ошибка при удалении заказа")});
   };

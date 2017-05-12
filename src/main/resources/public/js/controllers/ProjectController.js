@@ -32,7 +32,7 @@ var projectController = function($scope, $http, projectService, taskService) {
     resetError();
     projectService.setProjectIdForDelete(id);
     taskService.getTasksByProject(id).success(function (tasks) {
-      if(tasks.length != 0) {window.location.replace('#/tasks');}
+      if(tasks.length != 0) {window.location.replace('#/prjTasks');}
       else {deleteProject(id);}
     }).error(function () {setError("Ошибка при удалении проекта")});
   };
