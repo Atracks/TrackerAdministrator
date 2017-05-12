@@ -15,6 +15,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import ru.bravery_and_stupidity.trackerAdministrator.Application;
 import ru.bravery_and_stupidity.trackerAdministrator.config.TestConfiguration;
+import ru.bravery_and_stupidity.trackerAdministrator.dto.OrderDto;
+import ru.bravery_and_stupidity.trackerAdministrator.dto.ProjectDto;
 import ru.bravery_and_stupidity.trackerAdministrator.dto.TaskDto;
 import ru.bravery_and_stupidity.trackerAdministrator.dto.TestDtoCreater;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Task;
@@ -69,8 +71,8 @@ public class TaskRestWebServiceTest {
     .andExpect(jsonPath("$.[0].['parentTaskId']").value(22))
     .andExpect(jsonPath("$.[0].['project'].id").value(3))
     .andExpect(jsonPath("$.[0].['project'].description").value("project 3"))
+    .andExpect(jsonPath("$.[0].['order'].description").value("order 3"))
     //FIXME
-    //.andExpect(jsonPath("$.[0].['order']").value())
     //.andExpect(jsonPath("$.[0].['responsible']").value())
 
     .andExpect(jsonPath("$.[1].['id']").value("2"))
@@ -82,9 +84,9 @@ public class TaskRestWebServiceTest {
     .andExpect(jsonPath("$.[1].['importance']").value(10))
     .andExpect(jsonPath("$.[1].['parentTaskId']").value(22))
     .andExpect(jsonPath("$.[1].['project'].id").value(3))
-    .andExpect(jsonPath("$.[1].['project'].description").value("project 3"));
+    .andExpect(jsonPath("$.[1].['project'].description").value("project 3"))
+    .andExpect(jsonPath("$.[1].['order'].description").value("order 3"));
     //FIXME
-    //.andExpect(jsonPath("$.[1].['order']").value())
     //.andExpect(jsonPath("$.[1].['responsible']").value())
   }
 
@@ -93,7 +95,12 @@ public class TaskRestWebServiceTest {
     List<TaskDto> tasks = new ArrayList<>();
     tasks.add(TestDtoCreater.createTaskDto("test save tasks 1"));
     tasks.add(TestDtoCreater.createTaskDto("test save tasks 2"));
-    tasks.add(TestDtoCreater.createTaskDto("test save tasks 3"));
+    ProjectDto projectDto = TestDtoCreater.createProjectDto("project for save task test");
+    OrderDto orderDto = TestDtoCreater.createOrderDto("order for save task test");
+    TaskDto taskDto = TestDtoCreater.createTaskDto("test save tasks 3");
+    taskDto.setProject(projectDto);
+    taskDto.setOrder(orderDto);
+    tasks.add(taskDto);
     String jsonTasks = JsonMaper.mapToJson(tasks);
 
     mockMvc.perform(put("/tasks/saveTasks/")
@@ -103,9 +110,11 @@ public class TaskRestWebServiceTest {
     .andDo(print())
     .andExpect(status().isOk());
 
-    assertNotNull(findTaskByDescription("test save tasks 1"));
-    assertNotNull(findTaskByDescription("test save tasks 2"));
-    assertNotNull(findTaskByDescription("test save tasks 3"));
+    findTaskByDescription("test save tasks 1");
+    findTaskByDescription("test save tasks 2");
+    Task task = findTaskByDescription("test save tasks 3");
+    assertEquals(task.getProject().getDescription(),"project for save task test");
+    assertEquals(task.getOrder().getDescription(),"order for save task test");
   }
 
   private Task findTaskByDescription(String description) {
