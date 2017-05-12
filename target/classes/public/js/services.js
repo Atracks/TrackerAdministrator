@@ -17,7 +17,6 @@ AppServices.service('projectService', ['$http','$q', function($http) {
 AppServices.service('taskService', ['$http','$q', function($http) {
   return {
     getTasksByProject: function (projectId) { return $http.get('tasks/getTasksByProject/' + projectId);},
-    getTasksByOrder: function (orderId) { return $http.get('tasks/getTasksByOrder/' + orderId);},
     saveTasks: function (tasks) { return $http.put('tasks/saveTasks/',tasks);}
   }
 }]);

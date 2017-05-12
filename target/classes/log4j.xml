@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration debug="true" xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!-- Appenders -->
+    <appender name="file" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="d:/logs/trackerAdmin.log"/>
+        <param name="Append" value="true"/>
+        <param name="MaxFileSize" value="5MB"/>
+        <param name="MaxBackupIndex" value="10"/>
+        <param name="Encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{HH:mm:ss} [%t] %c{1} - %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="ru.bravery_and_stupidity.trackerAdministrator">
+        <level value="info"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <logger name="org.springframework.core">
+        <level value="debug"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <logger name="org.springframework.beans">
+        <level value="debug"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <logger name="org.springframework.context">
+        <level value="error"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <logger name="org.springframework.http">
+        <level value="error"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <logger name="org.springframework.web">
+        <level value="error"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <logger name="org.springframework.security">
+        <level value="error"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <logger name="org.postgresql">
+        <level value="info"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <logger name="org.hibernate">
+        <level value="error"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <logger name="org.hibernate.type">
+        <level value="error"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <root>
+        <priority value="warn"/>
+        <appender-ref ref="console"/>
+    </root>
+
+</log4j:configuration>
