@@ -30,12 +30,14 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
+  @Transactional
   public void deleteOrder(int id) {
     ValidationUtils.checkId(id);
     repository.deleteOrder(id);
   }
 
   @Override
+  @Transactional
   public void updateOrder(Order order) {
     Assert.notNull(order, "Order argument can not be null");
     ValidationUtils.checkId(order.getIdOrder());
@@ -44,6 +46,7 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
+  @Transactional
   public Order getOrder(int id) {
     ValidationUtils.checkId(id);
     return repository.getOrderById(id);
