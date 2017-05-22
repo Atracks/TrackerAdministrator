@@ -18,9 +18,6 @@ public class Worker {
   private String pass;
   private byte isGod;
 
-  //@OneToMany(mappedBy = "responsible")
-  //private Set<Task> tasks = new HashSet<>();
-
   @Id
   @GeneratedValue
   @Column(name = "idWorker")

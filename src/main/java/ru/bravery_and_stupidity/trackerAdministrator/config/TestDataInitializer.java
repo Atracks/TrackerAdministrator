@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Task;
+import ru.bravery_and_stupidity.trackerAdministrator.model.Worker;
 
 import javax.persistence.EntityManagerFactory;
 import java.sql.Date;
@@ -38,21 +39,25 @@ public class TestDataInitializer {
     order = createOrder("order 2");
     session.persist(order);
 
-    order = createOrder("order 3");
+    Worker workerJohn = createWorker("Lenon", "John", "Legend of rock");
 
+    order = createOrder("order 3");
     project = createProject("project 3");
+    Worker workerSid = createWorker("Sid", "Vishes", "Legend of punk rock");
+
     Task task = createTaskWithoutOuterEntity("Тестовое поручение1", Date.valueOf("2015-12-31"), Date.valueOf("2017-02-12"), 5);
     task.setProject(project);
     task.setOrder(order);
+    task.setResponsible(workerJohn);
     session.persist(task);
 
     task = createTaskWithoutOuterEntity("Тестовое поручение2", Date.valueOf("2013-11-22"), Date.valueOf("2016-08-05"), 10);
     task.setProject(project);
     task.setOrder(order);
+    task.setResponsible(workerSid);
+    task.addCoexecutor(workerJohn);
     session.persist(task);
 
-    session.persist(project);
-    session.persist(order);
     transaction.commit();
   }
 
@@ -79,14 +84,26 @@ public class TestDataInitializer {
     return task;
   }
 
-  public static Order createOrder(int id, String description) {
+  private Order createOrder(int id, String description) {
     Order order = new Order();
     order.setIdOrder(id);
     order.setDescription(description);
     return order;
   }
 
-  public static Order createOrder(String description) {
+  private Order createOrder(String description) {
     return createOrder(0, description);
+  }
+
+  private Worker createWorker(String surname, String name, String position){
+    Worker worker = new Worker();
+    worker.setName(name);
+    worker.setSurname(surname);
+    worker.setPosition(position);
+    worker.setLogin("login");
+    worker.setPass("pass");
+    worker.setEmail("email@mnb.com");
+    worker.setPatronymic("Zigizmundovich");
+    return worker;
   }
 }

@@ -2,6 +2,8 @@ package ru.bravery_and_stupidity.trackerAdministrator.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
+import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -14,7 +16,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 
   @Override
   public List<Order> getOrders() {
-    List<Order> orders = em.createNamedQuery(Order.GET_ALL, Order.class).getResultList();
+    List<Order> orders = em.createQuery("FROM Order").getResultList();
     return orders;
   }
 

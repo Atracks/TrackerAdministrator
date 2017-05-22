@@ -4,13 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "projects")
-@NamedQueries({
-    @NamedQuery(
-        name = Project.GET_ALL,
-        query = "from Project"
-    ),})
 public class Project {
-  public static final String GET_ALL = "projects.getAll";
   @Id
   @GeneratedValue
   private int idProject;

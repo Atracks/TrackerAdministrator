@@ -4,14 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "orders")
-@NamedQueries({
-    @NamedQuery(
-        name = Order.GET_ALL,
-        query = "from Order"
-    ),})
 public class Order {
-  public static final String GET_ALL = "orders.getAll";
-
   public Order() {}
 
   public Order(String description) {
