@@ -27,9 +27,17 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
+  @Transactional
   public List<TaskDto> getTasksByOrder(int orderId) {
     ValidationUtils.checkId(orderId);
     return TaskDto.mapFromModels(taskRepository.getTasksByOrder(orderId));
+  }
+
+  @Override
+  @Transactional
+  public List<TaskDto> getTasksByWorker(int workerId) {
+    ValidationUtils.checkId(workerId);
+    return TaskDto.mapFromModels(taskRepository.getTasksByWorker(workerId));
   }
 
   @Override

@@ -1,14 +1,11 @@
 package ru.bravery_and_stupidity.trackerAdministrator.repository;
 
 import org.springframework.stereotype.Repository;
-import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Task;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class TaskRepositoryImpl implements TaskRepository {
@@ -22,15 +19,25 @@ public class TaskRepositoryImpl implements TaskRepository {
 
   @Override
   public List<Task> getTasksByProject(int projectId) {
-    List<Task> tasks = em.createQuery("SELECT DISTINCT t FROM Task t JOIN t.project p where p.idProject = :projectId")
+    List<Task> tasks = em.createQuery("SELECT task FROM Task task JOIN task.project project " +
+                                        "WHERE project.idProject = :projectId")
       .setParameter("projectId", projectId).getResultList();
     return tasks;
   }
 
   @Override
   public List<Task> getTasksByOrder(int orderId) {
-    List<Task> tasks = em.createQuery("SELECT DISTINCT t FROM Task t JOIN t.order o where o.idOrder = :orderId")
+    List<Task> tasks = em.createQuery("SELECT task FROM Task task JOIN task.order o " +
+                                        "WHERE o.idOrder = :orderId")
       .setParameter("orderId", orderId).getResultList();
+    return tasks;
+  }
+
+  @Override
+  public List<Task> getTasksByWorker(int workerId) {
+    List<Task> tasks = em.createQuery("SELECT task FROM Task task LEFT JOIN task.coexecutors coexecutor " +
+                                        "WHERE task.responsible.idWorker = :workerId OR coexecutor.idWorker = :workerId")
+      .setParameter("workerId", workerId).getResultList();
     return tasks;
   }
 }

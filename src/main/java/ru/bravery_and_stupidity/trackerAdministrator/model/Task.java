@@ -1,7 +1,11 @@
 package ru.bravery_and_stupidity.trackerAdministrator.model;
 
+import org.springframework.util.Assert;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tasks")
@@ -41,18 +45,22 @@ public class Task {
 
   @ManyToOne(cascade = {CascadeType.ALL})
   @JoinTable(name = "relationshipstaskproject", joinColumns = @JoinColumn(name = "idTask"),
-      inverseJoinColumns = @JoinColumn(name = "idProject"))
+    inverseJoinColumns = @JoinColumn(name = "idProject"))
   private Project project;
 
   @ManyToOne(cascade = {CascadeType.ALL})
   @JoinTable(name = "relationshipstaskorder", joinColumns = @JoinColumn(name = "idTask"),
-      inverseJoinColumns = @JoinColumn(name = "idOrder"))
+    inverseJoinColumns = @JoinColumn(name = "idOrder"))
   private Order order;
 
-  //FIXME
-  //@ManyToOne(cascade = {CascadeType.ALL})
-  //@JoinColumn(name = "responsible")
-  //private Worker responsible;
+  @ManyToOne(cascade = {CascadeType.ALL})
+  @JoinColumn(name = "responsible")
+  private Worker responsible;
+
+  @ManyToMany(cascade = {CascadeType.ALL})
+  @JoinTable(name ="relationshipstaskaccomplices", joinColumns = @JoinColumn(name = "idTask"),
+    inverseJoinColumns = @JoinColumn(name = "idWorker"))
+  private Set<Worker> coexecutors = new HashSet<>();
 
   public int getIdTask() {
     return idTask;
@@ -126,9 +134,17 @@ public class Task {
     this.project = project;
   }
 
-  /*public Worker getResponsible() {
+  public Worker getResponsible() {
     return responsible;
-  }*/
+  }
+
+  public Set<Worker> getCoexecutors() {
+    return coexecutors;
+  }
+
+  public void setCoexecutors(Set<Worker> coexecutors) {
+    this.coexecutors = coexecutors;
+  }
 
   public Order getOrder() {
     return order;
@@ -138,9 +154,14 @@ public class Task {
     this.order = order;
   }
 
-  /*public void setResponsible(Worker responsible) {
+  public void setResponsible(Worker responsible) {
     this.responsible = responsible;
-  }*/
+  }
+
+  public void addCoexecutor(Worker worker) {
+    Assert.notNull(worker," worker is null");
+    coexecutors.add(worker);
+  }
 
   @Override
   public boolean equals(Object o) {

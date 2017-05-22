@@ -10,4 +10,5 @@ public interface TaskRepository {
   void saveTask(Task task);
   List<Task> getTasksByProject(int projectId);
   List<Task> getTasksByOrder(int orderId);
+  List<Task> getTasksByWorker(int workerId);
 }

@@ -3,6 +3,7 @@ package ru.bravery_and_stupidity.trackerAdministrator.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Project;
+import ru.bravery_and_stupidity.trackerAdministrator.model.Worker;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +17,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
   @Override
   public List<Project> getProjects() {
-    List<Project> projects = em.createNamedQuery(Project.GET_ALL, Project.class).getResultList();
+    List<Project> projects = em.createQuery("FROM Project").getResultList();
     return projects;
   }
 
