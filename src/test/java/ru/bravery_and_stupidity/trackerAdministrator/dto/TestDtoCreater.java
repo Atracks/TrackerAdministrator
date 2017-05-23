@@ -112,4 +112,21 @@ final public class TestDtoCreater {
   public static OrderDto createOrderDto(String description) {
     return createOrderDto(0,description);
   }
+
+  public static Worker createWorker(int id, String surname, String name, String position){
+    Worker worker = new Worker();
+    worker.setIdWorker(id);
+    worker.setName(name);
+    worker.setSurname(surname);
+    worker.setPosition(position);
+    worker.setLogin("login23");
+    worker.setPass("pass22");
+    worker.setEmail("email333@mnb.com");
+    worker.setPatronymic("Zigizmundovich3345");
+    return worker;
+  }
+
+  public static Worker createWorker(String surname, String name, String position){
+    return createWorker(0, surname, name, position);
+  }
 }

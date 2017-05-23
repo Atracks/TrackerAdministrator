@@ -34,8 +34,6 @@ public class OrderServiceImplTest {
   @Test
   public void getOrders() throws Exception {
     List<Order> orders = ordersService.getOrders();
-    //FIXME
-    //assertEquals(orders.size(), 3);
     assertEquals(orders.get(0).getDescription(),"order 1");
     assertEquals(orders.get(1).getDescription(),"order 2");
     assertEquals(orders.get(2).getDescription(),"order 3");
@@ -51,8 +49,8 @@ public class OrderServiceImplTest {
   }
 
   private Order findOrderByDescription(String description) {
-    List<Order> orders = em.createQuery("select u from Order u where description = :description")
-        .setParameter("description", description).getResultList();
+    List<Order> orders = em.createQuery("SELECT ord from Order ord WHERE description = :description")
+      .setParameter("description", description).getResultList();
     return orders.get(0);
   }
 

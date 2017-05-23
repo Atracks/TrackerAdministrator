@@ -12,7 +12,6 @@ import ru.bravery_and_stupidity.trackerAdministrator.model.Worker;
 
 import javax.persistence.EntityManagerFactory;
 import java.sql.Date;
-import java.time.LocalDate;
 
 @Component
 public class TestDataInitializer {
@@ -43,7 +42,7 @@ public class TestDataInitializer {
 
     order = createOrder("order 3");
     project = createProject("project 3");
-    Worker workerSid = createWorker("Sid", "Vishes", "Legend of punk rock");
+    Worker workerSid = createWorker("Vishes", "Seed", "Legend of punk rock");
 
     Task task = createTaskWithoutOuterEntity("Тестовое поручение1", Date.valueOf("2015-12-31"), Date.valueOf("2017-02-12"), 5);
     task.setProject(project);

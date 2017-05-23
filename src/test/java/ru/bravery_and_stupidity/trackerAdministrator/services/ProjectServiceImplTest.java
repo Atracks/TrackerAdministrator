@@ -31,8 +31,6 @@ public class ProjectServiceImplTest {
   @Test
   public void getProjects() throws Exception {
     List<Project> projects = projectsService.getProjects();
-    //FIXME
-    //assertEquals(projects.size(), 3);
     assertEquals(projects.get(0).getDescription(),"project 1");
     assertEquals(projects.get(1).getDescription(),"project 2");
     assertEquals(projects.get(2).getDescription(),"project 3");
@@ -47,7 +45,7 @@ public class ProjectServiceImplTest {
   }
 
   private Project findProjectByDescription(String description) {
-    List<Project> projects = em.createQuery("select u from Project u where description = :description")
+    List<Project> projects = em.createQuery("SELECT project FROM Project project WHERE description = :description")
       .setParameter("description", description).getResultList();
     return projects.get(0);
   }
