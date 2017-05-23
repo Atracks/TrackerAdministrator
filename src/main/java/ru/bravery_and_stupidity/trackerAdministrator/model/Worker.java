@@ -1,12 +1,11 @@
 package ru.bravery_and_stupidity.trackerAdministrator.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "workers")
-@JsonNaming
 public class Worker {
   private int idWorker;
   private String name;
@@ -107,6 +106,16 @@ public class Worker {
 
   public void setIsGod(byte isGod) {
     this.isGod = isGod;
+  }
+
+  public void isValid() {
+    Assert.hasLength(name, "Name can't be empty");
+    Assert.hasLength(surname, "Surname can't be empty");
+    Assert.hasLength(patronymic, "Patronymic can't be empty");
+    Assert.hasLength(position, "Position can't be empty");
+    Assert.hasLength(email, "Email can't be empty");
+    Assert.hasLength(login, "Login can't be empty");
+    Assert.hasLength(pass, "Pass can't be empty");
   }
 
   @Override
