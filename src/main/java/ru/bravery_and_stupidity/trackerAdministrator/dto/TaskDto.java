@@ -1,9 +1,8 @@
 package ru.bravery_and_stupidity.trackerAdministrator.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
+import com.sun.istack.internal.Nullable;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Task;
-import ru.bravery_and_stupidity.trackerAdministrator.model.Worker;
 
 import java.sql.Date;
 import java.util.*;
@@ -18,9 +17,12 @@ final public class TaskDto {
   private byte isOverdue;
   private int importance;
   private int parentTaskId;
+  @Nullable
   private ProjectDto project;
+  @Nullable
   private OrderDto order;
-  private Worker responsible;
+  private WorkerDto responsible;
+  private List<WorkerDto> coexecutors = new ArrayList<>();
 
 
   public int getId(){
@@ -103,12 +105,20 @@ final public class TaskDto {
     this.order = order;
   }
 
-  public Worker getResponsible() {
+  public WorkerDto getResponsible() {
     return responsible;
   }
 
-  public void setResponsible(Worker responsible) {
+  public void setResponsible(WorkerDto responsible) {
     this.responsible = responsible;
+  }
+
+  public List<WorkerDto> getCoexecutors() {
+    return coexecutors;
+  }
+
+  public void setCoexecutors(List<WorkerDto> coexecutors) {
+    this.coexecutors = coexecutors;
   }
 
   public static TaskDto mapFromModel(Task task) {
@@ -121,18 +131,16 @@ final public class TaskDto {
     taskDto.setImportance(task.getImportance());
     taskDto.setIsOverdue(task.getIsOverdue());
     taskDto.setParentTaskId(task.getParentTaskId());
-    //FIXME
     if(task.getProject() != null) {
       taskDto.setProject(ProjectDto.mapFromModel(task.getProject()));
     }
-    //FIXME
     if(task.getOrder() != null) {
       taskDto.setOrder(OrderDto.mapFromModel(task.getOrder()));
     }
-    //FIXME
-   /* if(task.getResponsible() != null) {
-      taskDto.setResponsible(task.getResponsible());
-    }*/
+    taskDto.setResponsible(WorkerDto.mapFromModel(task.getResponsible()));
+    if(task.getCoexecutors() != null) {
+      taskDto.setCoexecutors(WorkerDto.mapFromModels(task.getCoexecutors()));
+    }
     return taskDto;
   }
 
@@ -146,21 +154,16 @@ final public class TaskDto {
     task.setImportance(taskDto.getImportance());
     task.setIsOverdue(taskDto.getIsOverdue());
     task.setParentTaskId(taskDto.getParentTaskId());
-    //FIXME
     if(taskDto.getProject() != null) {
       task.setProject(ProjectDto.mapToModel(taskDto.getProject()));
     }
-    //FIXME
     if(taskDto.getOrder() != null) {
       task.setOrder(OrderDto.mapToModel(taskDto.getOrder()));
     }
-    //FIXME
-   // if(taskDto.getOrder() != null) {
-      //FIXME
-
-    //task.setResponsible(taskDto.getResponsible());
-    // task.setResponsible(worker);
-    //}
+    task.setResponsible(WorkerDto.mapToModel(taskDto.getResponsible()));
+    if(taskDto.getCoexecutors() != null) {
+      task.setCoexecutors(WorkerDto.mapToModels(taskDto.getCoexecutors()));
+    }
     return task;
   }
 

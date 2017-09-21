@@ -1,10 +1,12 @@
 package ru.bravery_and_stupidity.trackerAdministrator.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Order;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDto {
+@JsonNaming
+final public class OrderDto {
   private int id;
   private String description;
 

@@ -73,7 +73,12 @@ public class TaskRestWebServiceTest {
     .andExpect(jsonPath("$.[0].['project'].description").value("project 3"))
     .andExpect(jsonPath("$.[0].['order'].description").value("order 3"))
     //FIXME
-    //.andExpect(jsonPath("$.[0].['responsible']").value())
+    .andExpect(jsonPath("$.[0].['responsible'].idWorker").value(1))
+    .andExpect(jsonPath("$.[0].['responsible'].name").value("John"))
+    .andExpect(jsonPath("$.[0].['responsible'].surname").value("Lenon"))
+    .andExpect(jsonPath("$.[0].['responsible'].patronymic").value("Zigizmundovich"))
+    .andExpect(jsonPath("$.[0].['responsible'].position").value("Legend of rock"))
+    .andExpect(jsonPath("$.[0].['responsible'].email").value("email@mnb.com"))
 
     .andExpect(jsonPath("$.[1].['id']").value("2"))
     .andExpect(jsonPath("$.[1].['description']").value("Тестовое поручение2"))

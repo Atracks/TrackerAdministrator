@@ -1,10 +1,12 @@
 package ru.bravery_and_stupidity.trackerAdministrator.model;
 
+import com.sun.istack.internal.Nullable;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -43,11 +45,13 @@ public class Task {
   @Column(name = "parentTaskId")
   private int parentTaskId;
 
+  @Nullable
   @ManyToOne(cascade = {CascadeType.ALL})
   @JoinTable(name = "relationshipstaskproject", joinColumns = @JoinColumn(name = "idTask"),
     inverseJoinColumns = @JoinColumn(name = "idProject"))
   private Project project;
 
+  @Nullable
   @ManyToOne(cascade = {CascadeType.ALL})
   @JoinTable(name = "relationshipstaskorder", joinColumns = @JoinColumn(name = "idTask"),
     inverseJoinColumns = @JoinColumn(name = "idOrder"))
@@ -60,7 +64,7 @@ public class Task {
   @ManyToMany(cascade = {CascadeType.ALL})
   @JoinTable(name ="relationshipstaskaccomplices", joinColumns = @JoinColumn(name = "idTask"),
     inverseJoinColumns = @JoinColumn(name = "idWorker"))
-  private Set<Worker> coexecutors = new HashSet<>();
+  private Set<Worker> coexecutors = new LinkedHashSet<>();
 
   public int getIdTask() {
     return idTask;

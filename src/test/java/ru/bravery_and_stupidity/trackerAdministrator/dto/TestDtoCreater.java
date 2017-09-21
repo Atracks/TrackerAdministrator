@@ -20,8 +20,7 @@ final public class TestDtoCreater {
     task.setIsOverdue((byte)1);
     task.setOrder(createOrder(21, "Tested order 45"));
     task.setProject(createProject(44, "Tested project 77"));
-    //FIXME
-    //task.setResponsible(createWorker(67, "John", "Iovovich"));
+    task.setResponsible(createWorker(67, "John", "Iovovich"));
     task.setParentTaskId(22);
     task.setStatus(2);
     return task;
@@ -81,7 +80,7 @@ final public class TestDtoCreater {
     task.setIsOverdue((byte)1);
     task.setOrder(createOrderDto(16,"order 678"));
     task.setProject(createProjectDto(22, "Tested projectDto 47"));
-    task.setResponsible(createWorker(23, "Bill", "Footer"));
+    task.setResponsible(createWorkerDto(23, "Bill", "Footer", "Abramovich"));
     task.setParentTaskId(22);
     task.setStatus(2);
     return task;
@@ -111,6 +110,23 @@ final public class TestDtoCreater {
 
   public static OrderDto createOrderDto(String description) {
     return createOrderDto(0,description);
+  }
+
+  public static WorkerDto createWorkerDto(int id, String surname, String name, String position){
+    WorkerDto worker = new WorkerDto();
+    worker.setIdWorker(id);
+    worker.setName(name);
+    worker.setSurname(surname);
+    worker.setPosition(position);
+    worker.setLogin("login23");
+    worker.setPass("pass22");
+    worker.setEmail("email333@mnb.com");
+    worker.setPatronymic("Zigizmundovich3345");
+    return worker;
+  }
+
+  public static WorkerDto createWorkerDto(String surname, String name, String position){
+    return createWorkerDto(0, surname, name, position);
   }
 
   public static Worker createWorker(int id, String surname, String name, String position){
