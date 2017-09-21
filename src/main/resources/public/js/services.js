@@ -33,3 +33,15 @@ AppServices.service('orderService', ['$http','$q', function($http) {
     getOrderIdForDelete: function () { return orderIdForDelete}
   }
 }]);
+
+AppServices.service('workerService', ['$http','$q', function($http) {
+  var workerIdForDelete;
+  return {
+    getWorkers: function () {return $http.get('workers/workersList.json');},
+    addWorker: function (newWorker) {return $http.post('workers/addWorker/' + newWorker)},
+    deleteWorker: function (id) {return $http.delete('workers/deleteWorker/' + id)},
+    saveWorker: function (worker) {return $http.put('workers/updateWorker', worker)},
+    setWorkerIdForDelete: function (id) {workerIdForDelete = id},
+    getWorkerIdForDelete: function () { return workerIdForDelete}
+  }
+}]);
