@@ -25,6 +25,11 @@ App.config(['$routeProvider', function ($routeProvider) {
     controller: tasksByOrderController
   });
 
+  $routeProvider.when('/workers', {
+    templateUrl: 'workers/layout.html',
+    controller: workerController
+  });
+
   //$routeProvider.otherwise({redirectTo: '/projects'});
 }]);
 
