@@ -30,6 +30,11 @@ App.config(['$routeProvider', function ($routeProvider) {
     controller: workerController
   });
 
+  $routeProvider.when('/new-worker', {
+    templateUrl: 'workers/newWorkerLayout.html',
+    controller: newWorkerController
+  });
+
   //$routeProvider.otherwise({redirectTo: '/projects'});
 }]);
 

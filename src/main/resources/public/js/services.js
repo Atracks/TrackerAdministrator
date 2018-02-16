@@ -39,7 +39,17 @@ AppServices.service('workerService', ['$http','$q', function($http) {
   var workerIdForDelete;
   return {
     getWorkers: function () {return $http.get('workers/workersList.json');},
-    addWorker: function (newWorker) {return $http.post('workers/addWorker/' + newWorker)},
+    //addWorker: function (newWorker) {return $http.post('workers/addWorker/' + newWorker)},
+    addWorker: function (worker) {
+      /*var worker = {
+        login: login,
+        password: password,
+        name: casualName,
+        desire: '',
+        targetLogin: ''
+      }*/
+      return $http.post('workers/addWorker', worker);
+    },
     deleteWorker: function (id) {return $http.delete('workers/deleteWorker/' + id)},
     saveWorker: function (worker) {return $http.put('workers/updateWorker', worker)},
     setWorkerIdForDelete: function (id) {workerIdForDelete = id},
