@@ -1,0 +1,40 @@
+<div class="alert alert-danger" role="alert" ng-show="error">
+    {{errorMessage}}
+</div>
+
+<h3>Список работников</h3>
+<div class="alert alert-info" style="width:400px;" ng-show="workers.length == 0">
+    Список проектов пуст
+</div>
+<table class="table table-bordered table-striped" style="width:450px;" ng-show="workers.length > 0">
+    <thead>
+    <tr>
+        <th style="text-align: center;">Фамилия</th>
+        <th style="text-align: center;">Имя</th>
+        <th style="text-align: center;">Отчество</th>
+        <th style="text-align: center;">Должность</th>
+        <th style="text-align: center;">Почта</th>
+        <th style="text-align: center;">Логин</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="worker in workers">
+        <td>{{worker.surname}}</td>
+        <td>{{worker.name}}</td>
+        <td>{{worker.patronymic}}</td>
+        <td>{{worker.position}}</td>
+        <td>{{worker.email}}</td>
+        <td>{{worker.login}}</td>
+        <td  style="width:70px;text-align:center;">
+            <button class="btn btn-mini btn-danger" ng-click="checkWorkerForTasks(worker.id)">Удалить</button>
+        </td>
+        <td  style="width:70px;text-align:center;">
+            <button class="btn btn-mini btn-success" ng-click="editWorker(worker)">Изменить</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="input-append">
+    <button class="btn btn-primary" ng-click="redirectToNewWorkerLayout()">Новый работник..</button>
+</div>

@@ -5,14 +5,19 @@ var workerController = function($scope, $http, workerService, taskService) {
   $scope.editMode = false;
   getWorkersList();
 
-  $scope.addNewWorker = function(newWorker) {
+  /*$scope.addNewWorker = function(newWorker) {
     resetError();
     workerService.addWorker(newWorker).success(function () {
       getWorkersList();
       //FIXME очистка отображенных данных текущего работника
       //$scope.project.description = '';
     }).error(function () {setError("Ошибка при добавлении работника");});
-  };
+  };*/
+
+  $scope.redirectToNewWorkerLayout = function () {
+    resetError();
+    window.location.replace('#/new-worker');
+  }
 
   $scope.updateWorker = function(worker) {
     resetError();
