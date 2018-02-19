@@ -71,8 +71,7 @@ var newWorkerController = function($scope, $http, workerService) {
   }
   
   function checkEmail() {
-    var pattern = /^[0-9a-z]+@[0-9a-z]\.[a-z]$/;
-    if(($scope.worker.email === undefined)||($scope.worker.email.trim() === "")||(pattern.test($scope.worker.email))) {
+    if(($scope.worker.email === undefined)||($scope.worker.email.indexOf('@') == -1)||($scope.worker.email.indexOf('.')) == -1) {
       var errorMessage = "Некорректный адрес электронной почты";
       setError(errorMessage);
       return false;
