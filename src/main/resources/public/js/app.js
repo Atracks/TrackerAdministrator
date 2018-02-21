@@ -35,7 +35,7 @@ App.config(['$routeProvider', function ($routeProvider) {
     controller: newWorkerController
   });
 
-  //$routeProvider.otherwise({redirectTo: '/projects'});
+  $routeProvider.otherwise({redirectTo: '/workers'});
 }]);
 
 

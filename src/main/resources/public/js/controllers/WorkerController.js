@@ -2,20 +2,11 @@
 
 var workerController = function($scope, $http, workerService, taskService) {
   $scope.worker = {};
-  $scope.editMode = false;
   getWorkersList();
 
-  /*$scope.addNewWorker = function(newWorker) {
+  $scope.redirectToNewWorker = function () {
     resetError();
-    workerService.addWorker(newWorker).success(function () {
-      getWorkersList();
-      //FIXME очистка отображенных данных текущего работника
-      //$scope.project.description = '';
-    }).error(function () {setError("Ошибка при добавлении работника");});
-  };*/
-
-  $scope.redirectToNewWorkerLayout = function () {
-    resetError();
+    workerService.setEditMode(false);
     window.location.replace('#/new-worker');
   }
 
@@ -24,14 +15,14 @@ var workerController = function($scope, $http, workerService, taskService) {
     workerService.saveWorker(worker).success(function () {
       getWorkersList();
       $scope.worker.description = '';
-      $scope.editMode = false;
     }).error(function () {setError("Ошибка при обновлении данных работника");});
   };
 
-  $scope.editWorker = function(worker) {
+  $scope.redirectToEditWorker = function(id) {
     resetError();
-    $scope.worker = worker;
-    $scope.editMode = true;
+    workerService.setWorkerForEdit(id);
+    workerService.setEditMode(true);
+    window.location.replace('#/new-worker');
   };
 
   $scope.checkWorkerForTasks = function (id) {
@@ -47,9 +38,6 @@ var workerController = function($scope, $http, workerService, taskService) {
     resetError();
     workerService.deleteWorker(id).success(function () {
       getWorkersList();
-      //FIXME очистка отображенных данных текущего работника
-      //$scope.worker.description = '';
-      $scope.editMode = false;
     }).error(function () {setError("Ошибка при удалении работника");});
   };
 

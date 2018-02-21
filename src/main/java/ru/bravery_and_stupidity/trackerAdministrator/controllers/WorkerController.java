@@ -37,6 +37,12 @@ final public class WorkerController {
     workerService.deleteWorker(workerId);
   }
 
+  @RequestMapping(value = "/getWorker/{workerId}", method = RequestMethod.GET)
+  @ResponseBody
+  public WorkerDto getWorker(@PathVariable int workerId) {
+    return WorkerDto.mapFromModel(workerService.getWorker(workerId));
+  }
+
   @RequestMapping(value = "/updateWorker", method = RequestMethod.PUT)
   @ResponseBody
   public void updateWorker(@RequestBody WorkerDto worker) {

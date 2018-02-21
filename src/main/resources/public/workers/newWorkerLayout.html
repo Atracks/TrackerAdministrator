@@ -4,7 +4,7 @@
 
 <div class="login-container">
 
-<form name="form" ng-submit="onCreateWorker()" novalidate>
+<form name="form" ng-submit="onSaveWorker()" novalidate>
         <fieldset class="pure-group">
             <div class="form-field">
                 <input type="text" ng-model="worker.surname"
@@ -45,6 +45,7 @@
                        placeholder="Повтор пароля">
             </div>
         </fieldset>
-        <button class="btn btn-primary">Добавить</button>
+        <button class="btn btn-primary" ng-show="!isEditMode">Добавить</button>
+        <button class="btn btn-primary" ng-show="isEditMode">Сохранить</button>
     </form>
 </div>

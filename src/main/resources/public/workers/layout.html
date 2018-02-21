@@ -26,15 +26,15 @@
         <td>{{worker.email}}</td>
         <td>{{worker.login}}</td>
         <td  style="width:70px;text-align:center;">
-            <button class="btn btn-mini btn-danger" ng-click="checkWorkerForTasks(worker.id)">Удалить</button>
+            <button class="btn btn-mini btn-danger" ng-click="checkWorkerForTasks(worker.idWorker)">Удалить</button>
         </td>
         <td  style="width:70px;text-align:center;">
-            <button class="btn btn-mini btn-success" ng-click="editWorker(worker)">Изменить</button>
+            <button class="btn btn-mini btn-success" ng-click="redirectToEditWorker(worker.idWorker)">Изменить</button>
         </td>
     </tr>
     </tbody>
 </table>
 
 <div class="input-append">
-    <button class="btn btn-primary" ng-click="redirectToNewWorkerLayout()">Новый работник..</button>
+    <button class="btn btn-primary" ng-click="redirectToNewWorker()">Новый работник..</button>
 </div>
