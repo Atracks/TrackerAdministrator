@@ -3,6 +3,8 @@ package ru.bravery_and_stupidity.trackerAdministrator.model;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "workers")
@@ -15,6 +17,8 @@ public class Worker {
   private String email;
   private String login;
   private String pass;
+  private Set<Worker> slaves = new LinkedHashSet<>();
+  private Set<Task> coexecutorOfTasks = new LinkedHashSet<>();
   private byte isGod;
 
   @Id
@@ -96,6 +100,28 @@ public class Worker {
 
   public void setPass(String pass) {
     this.pass = pass;
+  }
+
+  @OneToMany(cascade = {CascadeType.ALL})
+  @JoinTable(name = "relationshipsmasterslave", joinColumns = @JoinColumn(name = "idMaster"),
+      inverseJoinColumns = @JoinColumn(name = "idSlave"))
+  public Set<Worker> getSlaves() {
+    return slaves;
+  }
+
+  public void setSlaves(Set<Worker> slaves) {
+    this.slaves = slaves;
+  }
+
+  @ManyToMany(cascade = {CascadeType.ALL})
+  @JoinTable(name ="relationshipstaskaccomplices", joinColumns = @JoinColumn(name = "idWorker"),
+      inverseJoinColumns = @JoinColumn(name = "idTask"))
+  public Set<Task> getCoexecutorOfTasks() {
+    return coexecutorOfTasks;
+  }
+
+  public void setCoexecutorOfTasks(Set<Task> coexecutorOfTasks) {
+    this.coexecutorOfTasks = coexecutorOfTasks;
   }
 
   @Basic

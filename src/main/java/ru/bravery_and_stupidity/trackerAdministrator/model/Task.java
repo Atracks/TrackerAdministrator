@@ -5,7 +5,6 @@ import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -57,9 +56,13 @@ public class Task {
     inverseJoinColumns = @JoinColumn(name = "idOrder"))
   private Order order;
 
-  @ManyToOne(cascade = {CascadeType.ALL})
+  @ManyToOne()
   @JoinColumn(name = "responsible")
   private Worker responsible;
+
+  @ManyToOne(cascade = {CascadeType.ALL})
+  @JoinColumn(name = "author")
+  private Worker author;
 
   @ManyToMany(cascade = {CascadeType.ALL})
   @JoinTable(name ="relationshipstaskaccomplices", joinColumns = @JoinColumn(name = "idTask"),
@@ -140,6 +143,14 @@ public class Task {
 
   public Worker getResponsible() {
     return responsible;
+  }
+
+  public Worker getAuthor() {
+    return author;
+  }
+
+  public void setAuthor(Worker author) {
+    this.author = author;
   }
 
   public Set<Worker> getCoexecutors() {

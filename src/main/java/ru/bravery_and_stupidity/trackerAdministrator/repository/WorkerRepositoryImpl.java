@@ -34,4 +34,22 @@ public class WorkerRepositoryImpl implements WorkerRepository {
   public Worker getWorkerById(int id) {
     return em.find(Worker.class, id);
   }
+
+  @Override
+  public List<Worker> getMasterWorkersBySlaveWorker(int workerId) {
+    List<Worker> workers = em.createQuery("SELECT worker FROM Worker worker LEFT JOIN worker.slaves slave " +
+        "WHERE slave.idWorker = :workerId")
+        .setParameter("workerId", workerId).getResultList();
+    return workers;
+  }
+
+  @Override
+  public List<Worker> getWorkersIsGod() {
+    byte isGod = 1;
+    List<Worker> workers = em.createQuery("SELECT worker FROM Worker worker WHERE worker.isGod = :isGod")
+        .setParameter("isGod", isGod).getResultList();
+    return workers;
+  }
 }
+
+

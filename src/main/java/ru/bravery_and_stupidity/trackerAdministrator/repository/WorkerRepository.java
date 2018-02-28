@@ -9,4 +9,6 @@ public interface WorkerRepository {
   void saveWorker(Worker worker);
   void deleteWorker(int id);
   Worker getWorkerById(int id);
+  List<Worker> getMasterWorkersBySlaveWorker(int workerId);
+  List<Worker> getWorkersIsGod();
 }

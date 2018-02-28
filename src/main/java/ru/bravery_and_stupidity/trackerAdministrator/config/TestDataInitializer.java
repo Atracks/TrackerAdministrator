@@ -12,6 +12,7 @@ import ru.bravery_and_stupidity.trackerAdministrator.model.Worker;
 
 import javax.persistence.EntityManagerFactory;
 import java.sql.Date;
+import java.util.HashSet;
 
 @Component
 public class TestDataInitializer {
@@ -39,15 +40,24 @@ public class TestDataInitializer {
     session.persist(order);
 
     Worker workerJohn = createWorker("Lenon", "John", "Legend of rock");
+    Worker workerBoss = createWorker("Boss", "Big", "Legend of world");
+    workerBoss.setIsGod((byte)1);
+
+    HashSet<Worker> slaves = new HashSet<Worker>();
+    slaves.add(workerJohn);
 
     order = createOrder("order 3");
     project = createProject("project 3");
     Worker workerSid = createWorker("Vishes", "Seed", "Legend of punk rock");
+    slaves.add(workerSid);
+
+    workerBoss.setSlaves(slaves);
 
     Task task = createTaskWithoutOuterEntity("Тестовое поручение1", Date.valueOf("2015-12-31"), Date.valueOf("2017-02-12"), 5);
     task.setProject(project);
     task.setOrder(order);
     task.setResponsible(workerJohn);
+    task.setAuthor(workerBoss);
     session.persist(task);
 
     task = createTaskWithoutOuterEntity("Тестовое поручение2", Date.valueOf("2013-11-22"), Date.valueOf("2016-08-05"), 10);
@@ -55,6 +65,7 @@ public class TestDataInitializer {
     task.setOrder(order);
     task.setResponsible(workerSid);
     task.addCoexecutor(workerJohn);
+    task.setAuthor(workerBoss);
     session.persist(task);
 
     transaction.commit();

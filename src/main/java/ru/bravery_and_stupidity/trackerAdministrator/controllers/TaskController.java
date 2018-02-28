@@ -31,6 +31,12 @@ final public class TaskController {
     return taskService.getTasksByOrder(orderId);
   }
 
+  @RequestMapping(value = "/getTasksByWorker/{workerId}", method = RequestMethod.GET)
+  @ResponseBody
+  public List<TaskDto> getTasksByWorker(@PathVariable("workerId") int workerId) {
+    return taskService.getTasksByResponsible(workerId);
+  }
+
   @RequestMapping(value = "/saveTasks/", method = RequestMethod.PUT)
   @ResponseBody
   public void saveTasks(@RequestBody ArrayList<TaskDto> tasks) {

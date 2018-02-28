@@ -25,6 +25,11 @@ App.config(['$routeProvider', function ($routeProvider) {
     controller: tasksByOrderController
   });
 
+  $routeProvider.when('/worker-tasks', {
+    templateUrl: 'tasks/workerTaskLayout.html',
+    controller: tasksByWorkerController
+  });
+
   $routeProvider.when('/workers', {
     templateUrl: 'workers/layout.html',
     controller: workerController

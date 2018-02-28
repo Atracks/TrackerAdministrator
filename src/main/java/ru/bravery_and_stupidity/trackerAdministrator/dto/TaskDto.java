@@ -22,8 +22,9 @@ final public class TaskDto {
   @Nullable
   private OrderDto order;
   private WorkerDto responsible;
+  private WorkerDto author;
   private List<WorkerDto> coexecutors = new ArrayList<>();
-
+  private List<WorkerDto> availableResponsible = new ArrayList<>();
 
   public int getId(){
     return id;
@@ -113,12 +114,28 @@ final public class TaskDto {
     this.responsible = responsible;
   }
 
+  public WorkerDto getAuthor() {
+    return author;
+  }
+
+  public void setAuthor(WorkerDto author) {
+    this.author = author;
+  }
+
   public List<WorkerDto> getCoexecutors() {
     return coexecutors;
   }
 
   public void setCoexecutors(List<WorkerDto> coexecutors) {
     this.coexecutors = coexecutors;
+  }
+
+  public List<WorkerDto> getAvailableResponsible() {
+    return availableResponsible;
+  }
+
+  public void setAvailableResponsible(List<WorkerDto> availableResponsible) {
+    this.availableResponsible = availableResponsible;
   }
 
   public static TaskDto mapFromModel(Task task) {
@@ -138,6 +155,7 @@ final public class TaskDto {
       taskDto.setOrder(OrderDto.mapFromModel(task.getOrder()));
     }
     taskDto.setResponsible(WorkerDto.mapFromModel(task.getResponsible()));
+    taskDto.setAuthor(WorkerDto.mapFromModel(task.getAuthor()));
     if(task.getCoexecutors() != null) {
       taskDto.setCoexecutors(WorkerDto.mapFromModels(task.getCoexecutors()));
     }
@@ -161,6 +179,7 @@ final public class TaskDto {
       task.setOrder(OrderDto.mapToModel(taskDto.getOrder()));
     }
     task.setResponsible(WorkerDto.mapToModel(taskDto.getResponsible()));
+    task.setAuthor(WorkerDto.mapToModel(taskDto.getAuthor()));
     if(taskDto.getCoexecutors() != null) {
       task.setCoexecutors(WorkerDto.mapToModels(taskDto.getCoexecutors()));
     }

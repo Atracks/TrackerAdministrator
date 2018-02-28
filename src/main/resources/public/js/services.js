@@ -16,10 +16,11 @@ AppServices.service('projectService', ['$http','$q', function($http) {
 
 AppServices.service('taskService', ['$http','$q', function($http) {
   return {
-    getTasksByProject: function (projectId) { return $http.get('tasks/getTasksByProject/' + projectId);},
-    getTasksByOrder: function (orderId) { return $http.get('tasks/getTasksByOrder/' + orderId);},
+    getTasksByProject: function (projectId) {return $http.get('tasks/getTasksByProject/' + projectId);},
+    getTasksByOrder: function (orderId) {return $http.get('tasks/getTasksByOrder/' + orderId);},
     getTasksByWorker: function (workerId) {return $http.get('tasks/getTasksByWorker/' + workerId)},
-    saveTasks: function (tasks) { return $http.put('tasks/saveTasks/',tasks);}
+    saveTasks: function (tasks) {return $http.put('tasks/saveTasks/',tasks);},
+    deleteCoexecutorFromTasks: function (workerId) {return $http.delete('tasks/deleteCoexecutorFromTasks/' + workerId)}
   }
 }]);
 
@@ -51,6 +52,7 @@ AppServices.service('workerService', ['$http','$q', function($http) {
     setWorkerForEdit: function (id) {workerIdForEdit = id},
     getWorkerForEdit: function () { return $http.get('workers/getWorker/' + workerIdForEdit);},
     setEditMode: function (mode) {isEditMode = mode},
-    isEditMode: function () {return isEditMode}
+    isEditMode: function () {return isEditMode},
+    deleteSlavesByWorker: function (id) {return $http.delete('workers/deleteSlavesByWorker/' + id)}
   }
 }]);
