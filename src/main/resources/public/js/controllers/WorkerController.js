@@ -29,10 +29,20 @@ var workerController = function($scope, $http, workerService, taskService) {
     resetError();
     workerService.setWorkerIdForDelete(id);
     taskService.getTasksByWorker(id).success(function (tasks) {
-      if(tasks.length != 0) {window.location.replace('#/workerTasks');}
-      else {deleteWorker(id);}
-    }).error(function () {setError("Ошибка при удалении работника")});
-  };
+      if (tasks.length != 0) {
+        window.location.replace('#/worker-tasks');
+      }
+      else {
+        workerService.deleteWorker(id).success(function () {
+          getWorkersList();
+        }).error(function () {
+          setError("Ошибка при удалении работника");
+        });
+      }
+    }).error(function () {
+       setError("Ошибка при удалении работника");
+    })
+  }
 
   function deleteWorker(id) {
     resetError();

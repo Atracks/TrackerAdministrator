@@ -34,10 +34,31 @@ public class TaskRepositoryImpl implements TaskRepository {
   }
 
   @Override
-  public List<Task> getTasksByWorker(int workerId) {
-    List<Task> tasks = em.createQuery("SELECT task FROM Task task LEFT JOIN task.coexecutors coexecutor " +
-                                        "WHERE task.responsible.idWorker = :workerId OR coexecutor.idWorker = :workerId")
+  public List<Task> getTasksByResponsible(int workerId) {
+    List<Task> tasks = em.createQuery("SELECT task FROM Task task " +
+        "WHERE task.responsible.idWorker = :workerId")
+        .setParameter("workerId", workerId).getResultList();
+    return tasks;
+  }
+
+  @Override
+  public List<Task> getTasksByAuthor(int workerId) {
+    List<Task> tasks = em.createQuery("SELECT task FROM Task task " +
+            "WHERE task.author.idWorker = :workerId")
+            .setParameter("workerId", workerId).getResultList();
+    return tasks;
+  }
+
+  @Override
+  public List<Task> getTasksByCoexecutor(int workerId) {
+      List<Task> tasks = em.createQuery("SELECT task FROM Task task LEFT JOIN task.coexecutors coexecutor " +
+                                        "WHERE coexecutor.idWorker = :workerId")
       .setParameter("workerId", workerId).getResultList();
     return tasks;
+  }
+
+  @Override
+  public Task getTaskById(int taskId) {
+    return em.find(Task.class, taskId);
   }
 }

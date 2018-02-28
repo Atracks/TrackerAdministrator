@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.bravery_and_stupidity.trackerAdministrator.dto.WorkerDto;
+import ru.bravery_and_stupidity.trackerAdministrator.model.Worker;
 import ru.bravery_and_stupidity.trackerAdministrator.services.WorkerService;
 
 import java.util.List;

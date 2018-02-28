@@ -2,6 +2,7 @@ package ru.bravery_and_stupidity.trackerAdministrator.dto;
 
 
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import org.springframework.util.Assert;
 import ru.bravery_and_stupidity.trackerAdministrator.model.Worker;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ final public class WorkerDto {
   private String login;
   private String pass;
   private byte isGod;
+  private String fullName;
 
   public int getIdWorker() {
     return idWorker;
@@ -91,6 +93,14 @@ final public class WorkerDto {
 
   public void setIsGod(byte isGod) {
     this.isGod = isGod;
+  }
+
+  public String getFullName() {
+    if((name != null)&&(surname != null)&&(patronymic != null)
+        &&(!name.isEmpty())&&(!surname.isEmpty())&&(!patronymic.isEmpty())) {
+      fullName = surname + " " + name.substring(0,1) + "." + surname.substring(0,1) + ".";
+    } else {fullName = surname;}
+    return fullName;
   }
 
   public static Worker mapToModel(WorkerDto workerDto) {

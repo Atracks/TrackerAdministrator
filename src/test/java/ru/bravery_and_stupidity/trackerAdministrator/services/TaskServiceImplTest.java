@@ -36,11 +36,11 @@ public class TaskServiceImplTest {
 
   @Test
   public void getTasksByWorker() throws Exception {
-   List<TaskDto> tasks = taskService.getTasksByWorker(1);
+   List<TaskDto> tasks = taskService.getTasksByResponsible(1);
    assertEquals(tasks.get(0).getId(), 1);
    assertEquals(tasks.get(1).getId(), 2);
 
-   tasks = taskService.getTasksByWorker(2);
+   tasks = taskService.getTasksByResponsible(2);
    assertEquals(tasks.get(0).getId(), 2);
   }
 
