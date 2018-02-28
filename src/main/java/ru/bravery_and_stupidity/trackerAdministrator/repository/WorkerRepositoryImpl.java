@@ -36,6 +36,12 @@ public class WorkerRepositoryImpl implements WorkerRepository {
   }
 
   @Override
+  public Worker getWorker(String login) {
+    return (Worker)em.createQuery("SELECT worker FROM Worker worker WHERE worker.login = :login")
+          .setParameter("login", login).getSingleResult();
+  }
+
+  @Override
   public List<Worker> getMasterWorkersBySlaveWorker(int workerId) {
     List<Worker> workers = em.createQuery("SELECT worker FROM Worker worker LEFT JOIN worker.slaves slave " +
         "WHERE slave.idWorker = :workerId")

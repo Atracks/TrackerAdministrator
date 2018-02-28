@@ -42,6 +42,7 @@ public class TestDataInitializer {
     Worker workerJohn = createWorker("Lenon", "John", "Legend of rock");
     Worker workerBoss = createWorker("Boss", "Big", "Legend of world");
     workerBoss.setIsGod((byte)1);
+    workerBoss.setLogin("Boss");
 
     HashSet<Worker> slaves = new HashSet<Worker>();
     slaves.add(workerJohn);

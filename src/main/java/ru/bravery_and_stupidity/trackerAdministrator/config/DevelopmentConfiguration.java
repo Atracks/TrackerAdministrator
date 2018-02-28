@@ -13,14 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * Development specific configuration - creates a localhost postgresql datasource,
- * sets hibernate on create drop mode and inserts some test data on the database.
- *
- * Set -Dspring.profiles.active=development to activate this config.
- *
- */
 @Configuration
 @Profile("development")
 @EnableTransactionManagement
@@ -32,7 +24,7 @@ public class DevelopmentConfiguration {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/trackerdb?useUnicode=true&characterEncoding=utf8");
         dataSource.setUsername("root");
-        dataSource.setPassword("15320666a");
+        dataSource.setPassword("28042016");
         return dataSource;
     }
 

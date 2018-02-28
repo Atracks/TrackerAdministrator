@@ -9,6 +9,7 @@ public interface WorkerRepository {
   void saveWorker(Worker worker);
   void deleteWorker(int id);
   Worker getWorkerById(int id);
+  Worker getWorker(String login);
   List<Worker> getMasterWorkersBySlaveWorker(int workerId);
   List<Worker> getWorkersIsGod();
 }
